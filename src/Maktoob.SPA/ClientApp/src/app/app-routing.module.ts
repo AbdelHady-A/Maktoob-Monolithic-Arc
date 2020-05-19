@@ -20,16 +20,16 @@ const routes: Routes = [
       (m) => m.ErrorModule
     )
   },
-  // {
-  //   path: '',
-  //   loadChildren: () =>
-  //     import('./root/root.module').then(
-  //       (m) => m.RootModule
-  //     ),
-  //   canLoad: [AuthGuard],
-  //   canActivate: [AuthGuard],
-  //   canActivateChild: [AuthGuard]
-  // },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./root/root.module').then(
+        (m) => m.RootModule
+      ),
+    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard]
+  },
   {
     path: '**',
     pathMatch: 'full',
