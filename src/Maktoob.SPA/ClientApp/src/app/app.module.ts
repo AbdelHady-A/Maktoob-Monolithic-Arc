@@ -10,6 +10,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LangFacade, ILangFacade } from './core/facades/lang.facade';
 import { CoreModule } from './core/core.module';
+import { RouterModule } from '@angular/router';
 
 
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -21,7 +22,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
       AppComponent,
    ],
    imports: [
-      BrowserModule,
+      BrowserModule.withServerTransition({ appId: 'serverApp' }),
       AppRoutingModule,
       BrowserAnimationsModule,
       HttpClientModule,
@@ -35,6 +36,7 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
          }
       }),
       CoreModule,
+      RouterModule,
    ],
    providers: [
       { provide: ILangFacade, useClass: LangFacade }

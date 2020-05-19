@@ -6,7 +6,7 @@
   <button mat-stroked-button (click)="authService.SignOutAsync()" color="warn">signout</button>
 </div> -->
 
-<div *ngIf="(vm$ | async) as vm" dir="vm.ActiveLang.dir">
+<div>
   <router-outlet></router-outlet>
 </div>
 
