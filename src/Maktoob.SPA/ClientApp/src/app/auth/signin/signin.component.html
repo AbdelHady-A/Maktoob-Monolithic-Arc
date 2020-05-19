@@ -1,0 +1,61 @@
+<form [formGroup]="signInForm" *ngIf="(vm$ | async) as vm">
+    <mat-card class="shadow-lg">
+        <mat-card-header class="text-center mat-card-header-without-text">
+            <div class="m-auto">
+                <img src="assets/logo.png" alt="">
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row text-center">
+                <div class="col-10 m-auto">
+                    <div class="row mb-2">
+                        <mat-form-field appearance="outline" class="col-12">
+                            <mat-label>{{ 'SignIn.Credentials.Label' | translate }}</mat-label>
+                            <input matInput formControlName="Credentials" name="UserName" id="UserName">
+                            <mat-error *ngFor="let error of vm.CredentialsErrors">
+                                {{ error?.Description || ( 'SignIn.Credentials.Errors.' + error?.Code | translate) }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-10 m-auto">
+                    <div class="row mb-2">
+                        <mat-form-field appearance="outline" class="col-12">
+                            <mat-label>
+                                {{'SignIn.Password.Label' | translate}}
+                            </mat-label>
+                            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="Password">
+                            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                                [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                                <mat-icon>
+                                    {{hidePassword ? 'visibility_off' : 'visibility'}}
+                                </mat-icon>
+                            </button>
+                            <mat-error *ngFor="let error of vm.PasswordErrors">
+                                {{ error?.Description || ( 'SignIn.Password.Errors.' + error?.Code | translate) }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div class="row text-center">
+                <div class="col-10 m-auto">
+                    <div class="row d-flex justify-content-between">
+                        <a mat-button [routerLink]="['/auth/signup']" class="mr-auto" color="primary"
+                            class="align-self-start">
+                            {{ 'SignIn.SignUpLink' | translate }}
+                        </a>
+
+                        <button (click)="SignInAsync()" mat-flat-button color="primary" class="align-self-end"
+                            [disabled]="signInForm.invalid">
+                            {{ 'SignIn.SignIn' | translate}}
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</form>

@@ -1,0 +1,41 @@
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2 
+  displayName: ".NET Core 3.1.x"
+  inputs:
+    version: '3.1.x'
+    packageType: sdk
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- script: dotnet tool install --global dotnet-ef --version 3.1
+  displayName: 'install ef tool'
+
+- script: dotnet ef database update --project ./src/Maktoob.Persistance/Maktoob.Persistance.csproj
+  displayName:  'update sql database'
+  env:
+   DBConnectionString: $(DBConnectionString)
+- script: dotnet test --configuration $(buildConfiguration)
+  displayName: 'dotnet test $(buildConfiguration)'
+  
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '-r linux-x64 --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'Maktoob'

@@ -1,0 +1,24 @@
+.secreen-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    height: 24px;
+  }
+}
+
+
+::ng-deep .custom-mat-select .mat-select-value {
+  max-width: none !important;
+}

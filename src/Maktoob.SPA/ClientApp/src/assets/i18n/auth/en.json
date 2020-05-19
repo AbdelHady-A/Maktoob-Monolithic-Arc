@@ -1,0 +1,71 @@
+{
+	"SignIn": {
+		"Credentials": {
+			"Errors": {
+				"required": "Enter username or email."
+			},
+			"Label": "Username or Email"
+		},
+		"Password": {
+			"Errors": {
+				"required": "Enter password."
+			},
+			"Label": "Password"
+		},
+		"SignIn": "Sign In",
+		"SignUpLink": "Create account"
+	},
+	"SignUp": {
+		"Email": {
+			"Errors": {
+				"email": "Not a valid email.",
+				"required": "Enter email."
+			},
+			"Hint": "You'll need to confirm that this email belongs to you.",
+			"Label": "Email"
+		},
+		"FirstName": {
+			"Errors": {
+				"NonPersonalName": "Are you sure you entered your name correctly?",
+				"maxlength": "Are you sure you entered your name correctly?",
+				"required": "Enter first name."
+			},
+			"Hint": "",
+			"Label": "First name"
+		},
+		"LastName": {
+			"Errors": {
+				"NonPersonalName": "Are you sure you entered your name correctly?",
+				"maxlength": "Are you sure you entered your name correctly?",
+				"required": "Enter last name."
+			},
+			"Hint": "",
+			"Label": "Last name"
+		},
+		"Password": {
+			"Errors": {
+				"NonEnglishLetters": "Only use letters, numbers, and common punctuation characters.",
+				"StartsOrEndsWithSpaces": "Your password can't start or end with a blank space.",
+				"maxlength": "Use 100 characters or fewer for your password.",
+				"minlength": "Use 8 characters or more for your password.",
+				"pattern": "Please choose a stronger password. Try a mix of letters, numbers, and symbols.",
+				"required": "Enter password."
+			},
+			"Hint": "Use 8 or more characters with a mix of letters, numbers & symbols",
+			"Label": "Password"
+		},
+		"SignInLink": "Sign in instead",
+		"SignUp": "Sign Up",
+		"UserName": {
+			"Errors": {
+				"StartsWithPeriod": "Sorry, but the username cannot start or end with a period.",
+				"maxlength": "Sorry, your username must be between 6 and 30 characters long.",
+				"minlength": "Sorry, your username must be between 6 and 30 characters long.",
+				"pattern": "Sorry, only letters (a-z), numbers (0-9), and periods (.) are allowed.",
+				"required": "Enter username."
+			},
+			"Hint": "You can use letters, numbers & periods",
+			"Label": "Username"
+		}
+	}
+}

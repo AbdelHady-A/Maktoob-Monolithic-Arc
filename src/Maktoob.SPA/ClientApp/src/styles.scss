@@ -1,0 +1,111 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+// $primary-yellow: (
+//   50: #ffffff,
+//   100: #ffefcf,
+//   200: #ffde97,
+//   300: #ffc74f,
+//   400: #ffbd31,
+//   500: #ffb312,
+//   600: #f2a500,
+//   700: #d49000,
+//   800: #b57b00,
+//   900: #976600,
+//   A100: #ffffff,
+//   A200: #ffe4ab,
+//   A400: #ffc345,
+//   A700: #ffbb2b,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #000000,
+//     500: #000000,
+//     600: #000000,
+//     700: #000000,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #000000,
+//     A700: #000000,
+//   ),
+// );
+$mat-primary: (
+  main: #00b726,
+  lighter: #b3e9be,
+  darker: #009f17,
+  200: #00b726, // For slide toggle,
+  contrast : (
+    main: $light-primary-text,
+    lighter: $dark-primary-text,
+    darker: $light-primary-text,
+  )
+);
+$Maktoob-primary: mat-palette($mat-primary, main, lighter, darker);
+$Maktoob-accent: mat-palette($mat-pink, A200, A100, A400);
+// The warn palette is optional (defaults to red).
+$Maktoob-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$Maktoob-theme: mat-light-theme(
+  $Maktoob-primary,
+  $Maktoob-accent,
+  $Maktoob-warn
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($Maktoob-theme);
+
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities";
+
+// to delete mat card header text from mat card header
+.mat-card-header-without-text .mat-card-header-text {
+  display: none;
+}
+* {
+  box-sizing: border-box !important;
+}
+
+.rtl {
+  direction: rtl;
+  & * {
+    direction: rtl;
+  }
+}
+.ltr {
+  direction: ltr;
+  & * {
+    direction: ltr;
+  }
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-display: swap;
+}

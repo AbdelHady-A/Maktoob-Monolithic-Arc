@@ -1,0 +1,103 @@
+<form [formGroup]="signUpForm" *ngIf="(vm$ | async) as vm">
+  <mat-card class="shadow-lg">
+    <mat-card-header class="text-center mat-card-header-without-text">
+      <div class="m-auto">
+        <img src="assets/logo.png" alt="">
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row text-center">
+        <div class="col-10 m-auto">
+
+          <!-- full name -->
+          <div class="row">
+            <!-- first name field -->
+            <mat-form-field appearance="outline" class="col-sm-12 col-md-6 mb-2">
+              <mat-label>{{ 'SignUp.FirstName.Label' | translate }}</mat-label>
+              <input matInput formControlName="FirstName">
+              <mat-error *ngFor="let error of vm.FirstNameErrors?.slice(0,1)">
+                {{ error?.Description || ( 'SignUp.FirstName.Errors.' + error?.Code | translate) }}
+              </mat-error>
+              <mat-hint>{{ 'SignUp.FirstName.Hint' | translate}}</mat-hint>
+            </mat-form-field>
+
+            <!-- last name field -->
+            <mat-form-field appearance="outline" class="col-sm-12 col-md-6 mb-2">
+              <mat-label>{{ 'SignUp.LastName.Label' | translate }}</mat-label>
+              <input matInput formControlName="LastName">
+              <mat-error *ngFor="let error of vm.LastNameErrors?.slice(0,1)">
+                {{ error?.Description || ( 'SignUp.LastName.Errors.' + error?.Code | translate )}}
+              </mat-error>
+              <mat-hint>{{ 'SignUp.LastName.Hint' | translate}}</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- username field -->
+          <div class="row mb-2">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>{{ 'SignUp.UserName.Label' | translate }}</mat-label>
+              <input matInput formControlName="UserName" #UserName>
+              <mat-error *ngFor="let error of vm.UserNameErrors?.slice(0,1)">
+                {{ error?.Description || ('SignUp.UserName.Errors.' + error?.Code | translate ) }}
+              </mat-error>
+              <mat-hint>{{ 'SignUp.UserName.Hint' | translate}}</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- email field -->
+          <div class="row mb-2">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>{{'SignUp.Email.Label' | translate}}</mat-label>
+              <input matInput formControlName="Email">
+              <mat-error *ngFor="let error of vm.EmailErrors">
+                {{ error?.Description || ( 'SignUp.Email.Errors.' + error?.Code | translate) }}
+              </mat-error>
+              <mat-hint>
+                {{ 'SignUp.Email.Hint' | translate }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <!-- password field -->
+          <div class="row mb-2">
+            <mat-form-field appearance="outline" class="col-12">
+              <mat-label>
+                {{'SignUp.Password.Label' | translate}}
+              </mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="Password" #Password>
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>
+                  {{hidePassword ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
+              </button>
+              <mat-error *ngFor="let error of vm.PasswordErrors?.slice(0,1)">
+                {{ error?.Description || ( 'SignUp.Password.Errors.' + error?.Code | translate) }}
+              </mat-error>
+              <mat-hint>
+                {{ 'SignUp.Password.Hint' | translate}}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    
+    <!-- actions -->
+    <mat-card-actions>
+      <div class="row text-center">
+        <div class="col-10 m-auto">
+          <div class="row d-flex justify-content-between">
+            <!-- link to signin page -->
+            <a mat-button [routerLink]="['/auth/signin']" color="primary">
+              {{ 'SignUp.SignInLink' | translate }}
+            </a>
+            <!-- signup button -->
+            <button (click)="SignUpAsync()" mat-flat-button [disabled]="signUpForm.invalid"
+              color="primary">{{ 'SignUp.SignUp' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>
