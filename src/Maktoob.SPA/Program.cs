@@ -16,14 +16,7 @@ namespace Maktoob.SPA
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                CreateHostBuilder(args).Build().Run();
-            }
-            catch
-            {
-                CreateHostBuilderForLocalIIS(args).Build().Run();
-            }
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilderForLocalIIS(string[] args) =>
