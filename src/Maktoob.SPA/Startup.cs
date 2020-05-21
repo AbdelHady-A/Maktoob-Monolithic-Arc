@@ -9,6 +9,8 @@ using Maktoob.Persistance.Extensions.Mongo;
 using Maktoob.SPA.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -174,6 +176,7 @@ namespace Maktoob.SPA
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<LangMiddleware>();
@@ -195,7 +198,14 @@ namespace Maktoob.SPA
             provider.Mappings[".webmanifest"] = "application/manifest+json";
 
             app.UseStaticFiles(new StaticFileOptions {
-                ContentTypeProvider = provider
+                ContentTypeProvider = provider,
+                OnPrepareResponse = ctx =>
+                {
+                    // Cache static files for 30 days
+                    var cachePeriod = "2592000";
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+
             });
             if (!env.IsDevelopment())
             {
@@ -230,7 +240,7 @@ namespace Maktoob.SPA
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
-                
+
                 spa.Options.SourcePath = "ClientApp";
                 
                 if (env.IsDevelopment())

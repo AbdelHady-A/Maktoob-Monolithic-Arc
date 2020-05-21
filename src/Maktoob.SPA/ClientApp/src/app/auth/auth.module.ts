@@ -16,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { ServiceProviders } from '../core/services/services';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [SignUpComponent, AuthComponent, SignInComponent],
@@ -27,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatSelectModule,
     MatButtonModule,
+    MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule.forChild({
@@ -41,6 +44,7 @@ import { MatButtonModule } from '@angular/material/button';
     })
   ],
   providers: [
+    ServiceProviders,
     { provide: ILangFacade, useClass: LangFacade },
     FacadeProviders
   ]

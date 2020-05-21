@@ -3,6 +3,6 @@ import { AuthService, IAuthService } from './auth.service';
 import { IStorageService, StorageService } from './storage.service';
 
 export const ServiceProviders: Provider[] = [
-    { provide: IAuthService, useClass: AuthService },
-    { provide: IStorageService, useClass: StorageService }
+    { provide: IAuthService, useClass: AuthService, multi: false },
+    { provide: IStorageService, useClass: StorageService, multi: false }
 ];

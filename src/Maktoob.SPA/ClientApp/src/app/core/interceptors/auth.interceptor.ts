@@ -20,8 +20,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
-
     if (
       (request.url.startsWith(this.API_BASE_URL + 'auth')
         ||

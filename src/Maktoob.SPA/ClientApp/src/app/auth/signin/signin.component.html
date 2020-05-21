@@ -48,8 +48,8 @@
                             {{ 'SignIn.SignUpLink' | translate }}
                         </a>
 
-                        <button (click)="SignInAsync()" mat-flat-button color="primary" class="align-self-end"
-                            [disabled]="signInForm.invalid">
+                        <button mat-flat-button color="primary" class="align-self-end" app-throttle-click
+                            (ThrottleClick)="SignInAsync()" [disabled]="signInForm.invalid">
                             {{ 'SignIn.SignIn' | translate}}
                         </button>
                     </div>

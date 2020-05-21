@@ -8,9 +8,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LangFacade, ILangFacade } from './core/facades/lang.facade';
-import { CoreModule } from './core/core.module';
 import { RouterModule } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ServiceProviders } from './core/services/services';
+
+
+export function getBaseUrl() {
+   return environment.API_BASE_URL;
+}
 
 
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -26,20 +31,19 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
       AppRoutingModule,
       BrowserAnimationsModule,
       HttpClientModule,
-      ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }),
+      ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
       TranslateModule.forRoot({
-         defaultLanguage: 'en',
          loader: {
             provide: TranslateLoader,
             useFactory: TranslateHttpLoaderFactory,
             deps: [HttpClient]
          }
       }),
-      CoreModule,
       RouterModule,
    ],
    providers: [
-      { provide: ILangFacade, useClass: LangFacade }
+      ServiceProviders,
+      { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] }
    ],
    bootstrap: [
       AppComponent

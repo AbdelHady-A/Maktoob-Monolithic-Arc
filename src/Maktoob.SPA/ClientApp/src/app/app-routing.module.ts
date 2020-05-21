@@ -10,9 +10,7 @@ const routes: Routes = [
       import('./auth/auth.module').then(
         (m) => m.AuthModule
       ),
-    canLoad: [UnauthGuard],
-    canActivate: [UnauthGuard],
-    canActivateChild: [UnauthGuard]
+    canLoad: [UnauthGuard]
   },
   {
     path: 'error',
@@ -26,9 +24,7 @@ const routes: Routes = [
       import('./root/root.module').then(
         (m) => m.RootModule
       ),
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard]
+    canLoad: [AuthGuard]
   },
   {
     path: '**',
@@ -38,7 +34,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    initialNavigation: 'enabled'
+})],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

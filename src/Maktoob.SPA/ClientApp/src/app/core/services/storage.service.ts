@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { StorageState } from '../states/storage.state';
+import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export abstract class IStorageService {
@@ -49,39 +50,49 @@ export class StorageService implements IStorageService {
   }
 
   constructor() {
-    for (let index = 0; index < localStorage?.length; index++) {
-      const key = localStorage.key(index)
-      try {
-        this.state[key] = JSON.parse(localStorage[key]);
-      } catch {
-        this.state[key] = localStorage[key];
+    if (typeof window !== 'undefined') {
+      for (let index = 0; index < localStorage?.length; index++) {
+        const key = localStorage.key(index)
+        try {
+          this.state[key] = JSON.parse(localStorage[key]);
+        } catch {
+          this.state[key] = localStorage[key];
+        }
       }
     }
   }
 
   public GetItem<T = any>(key: string): T {
-    try {
-      return JSON.parse(localStorage[key]);
-    } catch {
-      return localStorage[key];
+    if (typeof window !== 'undefined') {
+      try {
+        return JSON.parse(localStorage[key]);
+      } catch {
+        return localStorage[key];
+      }
     }
   }
 
   public SetItem(key: string, value: any): void {
-    try {
-      localStorage[key] = JSON.stringify(value);
-    }
-    catch{
-      localStorage[key] = value;
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage[key] = JSON.stringify(value);
+      }
+      catch{
+        localStorage[key] = value;
+      }
     }
   }
 
   public RemoveItem(key: string) {
-    localStorage.removeItem(key);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(key);
+    }
   }
 
   public Clear(): void {
-    localStorage.clear();
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+    }
   }
 }
 

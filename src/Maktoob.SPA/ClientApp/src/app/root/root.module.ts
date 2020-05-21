@@ -7,6 +7,8 @@ import { NavComponent } from './nav/nav.component';
 import { RootComponent } from './root.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { ServiceProviders } from '../core/services/services';
+import { ILangFacade, LangFacade } from '../core/facades/lang.facade';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     RootRoutingModule,
     MatButtonModule,
     MatToolbarModule,
+  ],
+  providers: [
+    ServiceProviders,
+    { provide: ILangFacade, useClass: LangFacade },
   ]
 })
 export class RootModule { }

@@ -8,15 +8,5 @@ export function getBaseUrl() {
   return environment.API_BASE_URL;
 }
 
-const providers = [
-  { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] }
-];
-
-if (environment.production) {
-  enableProdMode();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic(providers).bootstrapModule(AppModule)
+platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
-});
