@@ -1,3 +1,33 @@
-.spacer{
-    flex: 1 1 auto;
+@import "variables";
+
+.primary-toolbar {
+  @media (map-get($mat-grid-breakpoints, xs)) {
+    display: none !important;
+  }
+}
+
+.secondary-toolbar {
+  display: none !important;
+
+  @media (map-get($mat-grid-breakpoints, xs)) {
+    display: inherit !important;
+  }
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  &-bottom-border {
+    position: fixed;
+    top: 64px;
+    @media (map-get($mat-grid-breakpoints, xs)) {
+      top: 112px;
+    }
+    right: 0;
+    left: 0;
+    height: 7px;
+    background-size: 1px 7px;
+    background-repeat: repeat-x;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAAOBAMAAAD3WtBsAAAAFVBMVEUAAAAAAAAAAAAAAAAAAAAAAAD29va1cB7UAAAAB3RSTlMCCwQHGBAaZf6MKAAAABpJREFUCNdjSGNIY3BhCGUQBEJjIFQCQigAACyJAjLNW4w5AAAAAElFTkSuQmCC);
+  }
 }

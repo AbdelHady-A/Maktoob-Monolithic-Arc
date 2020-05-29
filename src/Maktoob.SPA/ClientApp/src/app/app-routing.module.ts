@@ -10,7 +10,8 @@ const routes: Routes = [
       import('./auth/auth.module').then(
         (m) => m.AuthModule
       ),
-    canLoad: [UnauthGuard]
+    canLoad: [UnauthGuard],
+    canActivateChild: [UnauthGuard],
   },
   {
     path: 'error',
@@ -19,12 +20,18 @@ const routes: Routes = [
     )
   },
   {
+    outlet: 'controlRouter',
+    path: 'control',
+    loadChildren: () => import('./root/control/control.module').then(m => m.ControlModule),
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./root/root.module').then(
         (m) => m.RootModule
       ),
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard],
+    canActivateChild: [AuthGuard]
   },
   {
     path: '**',
@@ -34,9 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled'
-})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule { }

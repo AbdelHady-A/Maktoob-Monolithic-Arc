@@ -1,0 +1,12 @@
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+) !default;
+
+$mat-grid-breakpoints: (
+  xs: "max-width: 599px",
+  sm: "max-width: 959px",
+);

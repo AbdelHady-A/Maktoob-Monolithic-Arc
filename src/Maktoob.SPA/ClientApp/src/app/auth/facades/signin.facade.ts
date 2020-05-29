@@ -6,6 +6,11 @@ import { IAuthService } from 'src/app/core/services/auth.service';
 import { SignInUserCommand } from 'src/app/core/commands/user.commnd';
 import { GError } from 'src/app/core/results/error';
 import { finalize, map } from 'rxjs/operators';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Router } from '@angular/router';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { LoaderComponent } from '../loader.component';
+
 
 @Injectable()
 export abstract class ISignInFacade {
@@ -34,7 +39,9 @@ export class SignInFacade implements ISignInFacade {
 
   constructor(
     private authService: IAuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private overly: Overlay,
+    private router: Router
   ) { }
 
   public ViewModel$ = this.state$;
@@ -56,32 +63,38 @@ export class SignInFacade implements ISignInFacade {
 
   // 
   public async SignInAsync(): Promise<void> {
+    this.showLoader();
     try {
       await this.authService.SignInAsync(this.command);
       this.subscriptions.forEach(sub => {
         sub.unsubscribe();
       });
+      this.signInForm.reset();
+      this.hideLoader();
+      this.router.navigate(['']);
     } catch (errors) {
-      const credentialsErrors = errors?.filter((e: GError) =>
+      const credentialsErrors : GError[] = errors?.filter((e: GError) =>
         e.Code.endsWith('Credentials')
       );
-      const passwordErrors = errors?.filter((e: GError) =>
+      let passwordErrors : GError[] = errors?.filter((e: GError) =>
         e.Code.endsWith('Password')
       );
 
       if (credentialsErrors?.length > 0) {
         this.Credentials.setErrors({ serverErrors: credentialsErrors });
+        passwordErrors = credentialsErrors.concat(passwordErrors);
       }
       if (passwordErrors?.length > 0) {
         this.password.setErrors({ serverErrors: passwordErrors })
       }
+      this.hideLoader();
     }
   }
 
   private Credentials: FormControl;
   private password: FormControl;
   private subscriptions: Subscription[] = [];
-
+  private signInForm: FormGroup;
   public BuildForm(): FormGroup {
     this.Credentials = this.formBuilder.control('',
       [
@@ -113,12 +126,12 @@ export class SignInFacade implements ISignInFacade {
     })
     this.subscriptions = [...this.subscriptions, sub];
 
-    const signInForm = this.formBuilder.group({
+    this.signInForm = this.formBuilder.group({
       Credentials: this.Credentials,
       Password: this.password
     });
 
-    sub = signInForm.valueChanges.pipe(
+    sub = this.signInForm.valueChanges.pipe(
       map((value: { Credentials: string, Password: string }) => {
         if (!Validators.email(this.Credentials)) { // no validation errors 
           return { Credentials: value.Credentials, Password: value.Password, EmailCredentials: true } as SignInUserCommand
@@ -132,7 +145,20 @@ export class SignInFacade implements ISignInFacade {
     })
     this.subscriptions = [...this.subscriptions, sub];
 
-    return signInForm;
+    return this.signInForm;
   }
 
+  private hideLoader() {
+    this.overlayRef?.detach();
+  }
+
+  private overlayRef: OverlayRef;
+  private showLoader() {
+    this.overlayRef = this.overly.create({
+      positionStrategy: this.overly.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true
+    })
+    const componentRef = this.overlayRef.attach(new ComponentPortal(LoaderComponent))
+    componentRef.instance.TranslatePath = 'SignIn.Loader';
+  }
 }

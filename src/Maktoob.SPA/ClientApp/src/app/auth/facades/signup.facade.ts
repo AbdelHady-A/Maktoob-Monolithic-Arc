@@ -7,7 +7,10 @@ import { IAuthService } from 'src/app/core/services/auth.service';
 import { SignUpState } from '../states/signup.state';
 import { finalize } from 'rxjs/operators';
 import { FormValidators } from 'src/app/core/validators/FormValidators';
-
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Router } from '@angular/router';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { LoaderComponent } from '../loader.component';
 
 
 
@@ -50,6 +53,8 @@ export class SignUpFacade implements ISignUpFacade {
   constructor(
     private formBuilder: FormBuilder,
     private authService: IAuthService,
+    private overlay: Overlay,
+    private router: Router
   ) { }
 
 
@@ -75,11 +80,15 @@ export class SignUpFacade implements ISignUpFacade {
   // ------- Public Methods ------------------------
 
   public async SignUpAsync() {
+    this.showLoader();
     try {
       await this.authService.SignUpAsync(this.command);
       this.subscriptions.forEach(sub => {
         sub.unsubscribe();
       })
+      this.signUpForm.reset();
+      this.hideLoader();
+      this.router.navigate(['']);
     } catch (errors) {
       const emailErrors = errors?.filter((e: GError) => e.Code.endsWith('Email'));
       const userNameErrors = errors?.filter((e: GError) => e.Code.endsWith('UserName'));
@@ -102,12 +111,13 @@ export class SignUpFacade implements ISignUpFacade {
       if (passwordErrors?.length > 0) {
         this.password.setErrors({ serverErrors: passwordErrors })
       }
+      this.hideLoader();
     }
   }
 
 
   private subscriptions: Subscription[] = [];
-
+  private signUpForm: FormGroup;
   public BuildForm(): FormGroup {
     let sub;
 
@@ -208,7 +218,7 @@ export class SignUpFacade implements ISignUpFacade {
 
 
     // build form group
-    const signUpForm = this.formBuilder.group({
+    this.signUpForm = this.formBuilder.group({
       UserName: this.userName,
       Email: this.email,
       Password: this.password,
@@ -216,7 +226,7 @@ export class SignUpFacade implements ISignUpFacade {
       LastName: this.lastName
     });
 
-    sub = signUpForm.valueChanges.pipe(
+    sub = this.signUpForm.valueChanges.pipe(
       finalize(() => {
         this.command = null; // delete data
       })
@@ -225,6 +235,21 @@ export class SignUpFacade implements ISignUpFacade {
     });
     this.subscriptions = [...this.subscriptions, sub];
 
-    return signUpForm;
+    return this.signUpForm;
+  }
+
+  private overlayRef: OverlayRef;
+  private showLoader() {
+    this.overlayRef = this.overlay.create({
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
+      hasBackdrop: true
+    })
+    const componentRef = this.overlayRef.attach(new ComponentPortal(LoaderComponent))
+    componentRef.instance.TranslatePath = 'SignUp.Loader';
+  }
+
+  private hideLoader() {
+    this.overlayRef.detach();
   }
 }
+

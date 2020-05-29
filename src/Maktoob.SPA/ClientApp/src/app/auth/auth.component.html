@@ -6,7 +6,7 @@
                 <div class="">
                     <mat-select [value]="vm.ActiveLang.key" class="custom-mat-select" #lang_select>
                         <mat-option *ngFor="let l of vm.AvailableLangs" value="{{l.key}}"
-                            (click)="this.langService.changeLang(lang_select.value)">
+                            (click)="langFacade.changeLang(lang_select.value)">
                             {{ l.name }}
                         </mat-option>
                     </mat-select>

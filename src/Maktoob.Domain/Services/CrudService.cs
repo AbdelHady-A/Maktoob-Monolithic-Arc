@@ -16,12 +16,12 @@ namespace Maktoob.Domain.Services
         where TEntity : Entity<Guid>
     {
 
-        public CrudService(IRepository<TEntity> repository, IEnumerable<IValidator<TEntity>> validators, GErrorDescriber errorDescriber, IUnitOfWork unitOfWork)
+        public CrudService(IRepository<TEntity> repository, IEnumerable<IValidator<TEntity>> validators, GErrorDescriber errorDescriber)
         {
             _repository = repository;
             _validators = validators ?? new IValidator<TEntity>[0];
             ErrorDescriber = errorDescriber;
-            _unitOfWork = unitOfWork;
+            _unitOfWork = this._repository.UnitOfWork;
         }
 
         protected readonly IRepository<TEntity> _repository;

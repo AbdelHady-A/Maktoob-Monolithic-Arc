@@ -30,12 +30,11 @@ namespace Maktoob.Domain.Services
         public SignInService(IUserService userService, 
             IJsonWebTokenCoder jsonWebTokenCoder, 
             IUserLoginRepository userLoginRepository, 
-            IUnitOfWork unitOfWork,
             GErrorDescriber errorDescriber,
             IUserClaimsFactory userClaimsFactory,
             IRefreshTokenGenerator refreshTokenGenerator,
             IEnumerable<IValidator<UserLogin>> validators,
-            IOptions<JsonWebTokenOptions> jsonWebTokenOptions) : base(userLoginRepository, validators, errorDescriber, unitOfWork)
+            IOptions<JsonWebTokenOptions> jsonWebTokenOptions) : base(userLoginRepository, validators, errorDescriber)
         {
             UserService = userService;
             _jsonWebTokenCoder = jsonWebTokenCoder;

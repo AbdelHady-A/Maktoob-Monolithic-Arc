@@ -13,6 +13,7 @@
 			"Label": "Password"
 		},
 		"SignIn": "Sign In",
+		"Loader": "Signing in...",
 		"SignUpLink": "Create account"
 	},
 	"SignUp": {
@@ -56,6 +57,7 @@
 		},
 		"SignInLink": "Sign in instead",
 		"SignUp": "Sign Up",
+		"Loader": "Signing up...",
 		"UserName": {
 			"Errors": {
 				"StartsWithPeriod": "Sorry, but the username cannot start or end with a period.",

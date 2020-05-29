@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
 import { AuthService, IAuthService } from './auth.service';
 import { IStorageService, StorageService } from './storage.service';
+import { IThemeFacade, ThemeFacade } from '../facades/theme.facade';
 
 export const ServiceProviders: Provider[] = [
     { provide: IAuthService, useClass: AuthService, multi: false },

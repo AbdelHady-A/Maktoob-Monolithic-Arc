@@ -2,7 +2,7 @@
   <mat-card class="shadow-lg">
     <mat-card-header class="text-center mat-card-header-without-text">
       <div class="m-auto">
-        <img src="assets/logo.png" alt="">
+        <img src="assets/logo.svg" alt="logo" class="logo">
       </div>
     </mat-card-header>
     <mat-card-content>
@@ -93,7 +93,7 @@
               {{ 'SignUp.SignInLink' | translate }}
             </a>
             <!-- signup button -->
-            <button (click)="SignUpAsync()" mat-flat-button [disabled]="signUpForm.invalid"
+            <button (click)="SignUpAsync()" mat-flat-button [disabled]="signUpForm.invalid" app-throttle-click
               color="primary">{{ 'SignUp.SignUp' | translate }}</button>
           </div>
         </div>

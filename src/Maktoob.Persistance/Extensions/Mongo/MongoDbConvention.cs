@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Conventions;
 
 namespace Maktoob.Persistance.Extensions.Mongo
 {
-    internal class MongoConvention : IConventionPack
+    internal class MongoDbConvention : IConventionPack
     {
         public IEnumerable<IConvention> Conventions => new List<IConvention>
         {

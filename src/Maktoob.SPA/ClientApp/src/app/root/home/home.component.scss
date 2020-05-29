@@ -1,0 +1,19 @@
+.bg {
+  background-image: url(../../../assets/svg/bg-main.svg);
+  background-attachment: local;
+  background-size: contain;
+  background-repeat: no-repeat;
+  @media (max-width: 500px) {
+    width: 360px;
+    height: 360px;
+  }
+  @media (min-width: 500px) {
+    width: 500px;
+    height: 500px;
+  }
+  @media (min-width: 1000px) {
+    width: 1000px;
+    height: 1000px;
+  }
+  background-position: center;
+}

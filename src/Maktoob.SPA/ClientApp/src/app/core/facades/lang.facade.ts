@@ -55,7 +55,7 @@ export class LangFacade implements ILangFacade {
     public changeLang(langKey: string): void {
         const lang = _state.AvailableLangs.find(l => l.key == langKey);
         this.translateService.use(lang.key);
-
+        document.body.dir = lang.dir;
         this.updateState({ ..._state, ActiveLang: lang });
     }
 

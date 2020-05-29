@@ -16,10 +16,13 @@ namespace Maktoob.Persistance.Repositories
     {
         protected readonly MaktoobDbContext _dbContext;
 
-        public Repository(MaktoobDbContext dbContext)
+        public Repository(MaktoobDbContext dbContext, IUnitOfWork unitOfWork)
         {
             _dbContext = dbContext;
+            UnitOfWork = unitOfWork;
         }
+
+        public IUnitOfWork UnitOfWork { get; }
 
         public virtual async Task AddAsync(TEntity entity)
         {

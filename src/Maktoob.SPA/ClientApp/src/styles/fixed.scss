@@ -1,0 +1,91 @@
+* {
+  box-sizing: border-box !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-display: swap;
+}
+
+// remove blue box on mobiles
+input,
+textarea,
+button,
+select,
+a,
+div {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.z1 {
+  z-index: 1;
+}
+.z2 {
+  z-index: 2;
+}
+.z3 {
+  z-index: 3;
+}
+
+.z4 {
+  z-index: 4;
+}
+.z5 {
+  z-index: 2000;
+}
+
+.scale-x1-25 {
+  transform: scale(1.25);
+}
+.scale-x1-5 {
+  transform: scale(1.5);
+}
+.scale-x2 {
+  transform: scale(2);
+}
+.scale-x3 {
+  transform: scale(3);
+}
+
+.scale-x4 {
+  transform: scale(4);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// ---------------- fix angular material issues ---------------
+
+// to delete mat card header text from mat card header
+.mat-card-header-without-text .mat-card-header-text {
+  display: none;
+}
+
+// for solve material slide toggle ripple errors
+.mat-ripple-element {
+  top: 0 !important;
+  left: 0 !important;
+}

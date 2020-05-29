@@ -7,7 +7,7 @@ namespace Maktoob.Persistance.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(MaktoobDbContext dbContext) : base(dbContext)
+        public UserRepository(MaktoobDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
         {
         }
     }

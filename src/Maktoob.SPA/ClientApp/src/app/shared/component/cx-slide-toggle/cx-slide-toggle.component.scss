@@ -1,0 +1,100 @@
+@mixin cx-slide-toggle-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .normal-tgl {
+    .tgl {
+      display: none;
+
+      // add default box-sizing for this scope
+      &,
+      &:after,
+      &:before,
+      & *,
+      & *:after,
+      & *:before,
+      & + .tgl-btn {
+        box-sizing: border-box;
+        &::selection {
+          background: none;
+        }
+      }
+
+      + .tgl-btn {
+        outline: 0;
+        display: block;
+        width: 4em;
+        height: 2em;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+        &:after,
+        &:before {
+          position: relative;
+          display: block;
+          content: "";
+          width: 50%;
+          height: 100%;
+        }
+
+        &:after {
+          left: 0;
+        }
+
+        &:before {
+          display: none;
+        }
+      }
+
+      &:checked + .tgl-btn:after {
+        [dir="rtl"] & {
+          right: 50%;
+        }
+        [dir="ltr"] & {
+          left: 50%;
+        }
+      }
+    }
+
+    .tgl-light {
+      + .tgl-btn {
+        background: map-get($background, disabled-button);
+        border-radius: 2em;
+        padding: 2px;
+        -webkit-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+        -o-transition: all 0.4s ease;
+        -moz-transition: all 0.4s ease;
+
+        &:after {
+          [dir="rtl"] & {
+            right: 0;
+          }
+          [dir="ltr"] & {
+            left: 0;
+          }
+
+          border-radius: 50%;
+          background: #fff;
+          transition: all 0.2s ease;
+        }
+      }
+
+      &:checked + .tgl-btn {
+        background: map-get($primary, default);
+      }
+    }
+  }
+  .large-tgl {
+    @extend .normal-tgl;
+    .tgl {
+      + .tgl-btn {
+        width: 2 * 4em;
+        height: 2 * 2em;
+      }
+    }
+  }
+}

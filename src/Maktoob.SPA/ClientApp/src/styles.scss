@@ -11,101 +11,79 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-// $primary-yellow: (
-//   50: #ffffff,
-//   100: #ffefcf,
-//   200: #ffde97,
-//   300: #ffc74f,
-//   400: #ffbd31,
-//   500: #ffb312,
-//   600: #f2a500,
-//   700: #d49000,
-//   800: #b57b00,
-//   900: #976600,
-//   A100: #ffffff,
-//   A200: #ffe4ab,
-//   A400: #ffc345,
-//   A700: #ffbb2b,
-//   contrast: (
-//     50: #000000,
-//     100: #000000,
-//     200: #000000,
-//     300: #000000,
-//     400: #000000,
-//     500: #000000,
-//     600: #000000,
-//     700: #000000,
-//     800: #ffffff,
-//     900: #ffffff,
-//     A100: #000000,
-//     A200: #000000,
-//     A400: #000000,
-//     A700: #000000,
-//   ),
-// );
 $mat-primary: (
-  main: #00b726,
-  lighter: #b3e9be,
-  darker: #009f17,
-  200: #00b726, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
+  50: #c1ffce,
+  100: #75ff91,
+  200: #3dff65,
+  300: #00f433,
+  400: #00d62c,
+  500: #00b726,
+  600: #009820,
+  700: #007a19,
+  800: #005b13,
+  900: #003d0d,
+  A100: #b7ffc6,
+  A200: #51ff75,
+  A400: #00ea31,
+  A700: #00d02b,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  ),
 );
-$Maktoob-primary: mat-palette($mat-primary, main, lighter, darker);
+$Maktoob-primary: mat-palette($mat-primary);
 $Maktoob-accent: mat-palette($mat-pink, A200, A100, A400);
 // The warn palette is optional (defaults to red).
 $Maktoob-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$Maktoob-theme: mat-light-theme(
-  $Maktoob-primary,
-  $Maktoob-accent,
-  $Maktoob-warn
-);
+$light-theme: mat-light-theme($Maktoob-primary, $Maktoob-accent, $Maktoob-warn);
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include angular-material-theme($Maktoob-theme);
+$dark-theme: mat-dark-theme($Maktoob-primary, $Maktoob-accent, $Maktoob-warn);
 
 /* You can add global styles to this file, and also import other style files */
-@import "variables";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/grid";
 @import "~bootstrap/scss/utilities";
+@import "styles/styles";
+@import "variables";
 
-// to delete mat card header text from mat card header
-.mat-card-header-without-text .mat-card-header-text {
-  display: none;
-}
-* {
-  box-sizing: border-box !important;
+@mixin global-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
+  // Include theme styles for core and each component used in your app.
+  // Alternatively, you can import and @include the theme mixins for each component
+  // that you are using.
+  @include angular-material-theme($theme);
+
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  @include local-theme(
+    $theme,
+    $grid-breakpoints,
+    $mat-grid-breakpoints
+  ); // light is defualt theme
 }
 
-.rtl {
-  direction: rtl;
-  & * {
-    direction: rtl;
-  }
+@include global-theme($light-theme, $grid-breakpoints, $mat-grid-breakpoints);
+
+.dark-theme {
+  @include global-theme($dark-theme, $grid-breakpoints, $mat-grid-breakpoints);
 }
-.ltr {
-  direction: ltr;
-  & * {
-    direction: ltr;
-  }
-}
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-display: swap;
-}
+
+@import "styles/fixed.scss";

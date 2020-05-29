@@ -1,0 +1,14 @@
+@mixin cx-button-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .cx-button {
+    cursor: pointer;
+    &:hover {
+      background-color: map-get($background, hover);
+    }
+  }
+}

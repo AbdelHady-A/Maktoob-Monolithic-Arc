@@ -1,2 +1,9 @@
-<app-nav (SignOut)="SignOutAsync()"></app-nav>
-<router-outlet></router-outlet>
+<div *ngIf="( vm$ | async) as vm" dir="vm.ActiveLang.dir">
+    <app-nav (SignOut)="SignOutAsync()"></app-nav>
+    <div>
+        <div class="dumb-element"></div>
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

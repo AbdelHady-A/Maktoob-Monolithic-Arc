@@ -10,7 +10,7 @@ import { ISignUpFacade } from '../facades/signup.facade';
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   hidePassword: boolean = true;
-  
+
   constructor(private signUpFacade: ISignUpFacade) { }
 
   vm$ = this.signUpFacade.ViewModel$;
@@ -19,7 +19,8 @@ export class SignUpComponent implements OnInit {
     this.signUpForm = this.signUpFacade.BuildForm();
   }
 
-  public async SignUpAsync() : Promise<void>{
-    await this.signUpFacade.SignUpAsync();
+  public async SignUpAsync(): Promise<void> {
+      await this.signUpFacade.SignUpAsync();
   }
+  
 }

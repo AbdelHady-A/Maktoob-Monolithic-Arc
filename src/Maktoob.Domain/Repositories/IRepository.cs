@@ -10,6 +10,7 @@ namespace Maktoob.Domain.Repositories
     public interface IRepository<TEntity>
         where TEntity : Entity<Guid>
     {
+        IUnitOfWork UnitOfWork { get; }
         Task<IList<TEntity>> GetAsync(MultiResultSpec<TEntity> spec);
         Task<TEntity> GetAsync(SingleResultSpec<TEntity> spec);
         Task AddAsync(TEntity entity);

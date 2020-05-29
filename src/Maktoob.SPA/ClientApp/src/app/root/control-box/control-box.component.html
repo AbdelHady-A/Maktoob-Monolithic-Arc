@@ -1,0 +1,17 @@
+<div class="d-flex flex-row" id="ControlBox" (click)="$event.stopPropagation()">
+    <div class="icon-act rounded-circle mx-1" [class.active]="ActivePath?.startsWith('add')">
+        <mat-icon class="m-auto material-icons-round">add</mat-icon>
+    </div>
+
+    <div class="icon-act rounded-circle mx-1">
+        <mat-icon class="m-auto material-icons-outlined">chat</mat-icon>
+    </div>
+
+    <div class="icon-act rounded-circle mx-1">
+        <mat-icon class="m-auto">notifications</mat-icon>
+    </div>
+    <div class="icon-act rounded-circle mx-1" [class.active]="ActivePath?.startsWith('account')"
+        (click)="_OpenControl('account')">
+        <mat-icon class="m-auto material-icons-round scale-x2">arrow_drop_down</mat-icon>
+    </div>
+</div>

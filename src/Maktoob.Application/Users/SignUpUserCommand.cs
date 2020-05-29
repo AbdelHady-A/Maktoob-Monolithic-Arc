@@ -26,11 +26,13 @@ namespace Maktoob.Application.Users
         {
             private readonly IUserService _userService;
             private readonly ISignInService _signInService;
+            private readonly IUserProfileService _userProfileService;
 
-            public Handler(IUserService userService, ISignInService signInService)
+            public Handler(IUserService userService, ISignInService signInService, IUserProfileService userProfileService)
             {
                 _userService = userService;
-                this._signInService = signInService;
+                _signInService = signInService;
+                _userProfileService = userProfileService;
             }
 
             public async Task<GResult> HandleAsync(SignUpUserCommand command)
@@ -44,7 +46,11 @@ namespace Maktoob.Application.Users
                 user.PasswordHash = _userService.PasswordHasher.Hash(command.Password);
 
                 var result = await _userService.CreateAsync(user);
-
+                if (result.Succeeded)
+                {
+                    var userProfile = new UserProfile { UserId = user.Id, FirstName = command.FirstName, LastName = command.LastName };
+                    await _userProfileService.CreateAsync(userProfile);
+                }
                 return result;
             }
         }

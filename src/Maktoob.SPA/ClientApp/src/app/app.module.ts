@@ -10,7 +10,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { ServiceProviders } from './core/services/services';
+import { CoreModule } from './core/core.module';
 
 
 export function getBaseUrl() {
@@ -40,9 +40,9 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
          }
       }),
       RouterModule,
+      CoreModule
    ],
    providers: [
-      ServiceProviders,
       { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] }
    ],
    bootstrap: [

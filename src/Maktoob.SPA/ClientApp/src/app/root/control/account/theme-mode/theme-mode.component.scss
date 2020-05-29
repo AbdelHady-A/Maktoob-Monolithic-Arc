@@ -1,0 +1,6 @@
+[dir="ltr"] :host .dark-mode-icon {
+  transform: rotate(145deg) !important;
+}
+[dir="rtl"] :host .dark-mode-icon {
+  transform: rotate(30deg) !important;
+}

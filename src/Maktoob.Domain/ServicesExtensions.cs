@@ -19,7 +19,7 @@ namespace Maktoob.Domain
             services.AddScoped<IKeyNormalizer, NameNormalizer>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISignInService, SignInService>();
-            //services.AddScoped<IValidator<User>, UserValidator>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
             services.AddScoped<GErrorDescriber>();
             services.AddValidators();
         }

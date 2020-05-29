@@ -8,7 +8,9 @@ namespace Maktoob.Domain.Entities
         /// <summary>
         /// Initializes a new instance of <see cref="User"/>.
         /// </summary>
-        public User() { }
+        public User() {
+            this.Id = Guid.NewGuid();
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="User"/>.

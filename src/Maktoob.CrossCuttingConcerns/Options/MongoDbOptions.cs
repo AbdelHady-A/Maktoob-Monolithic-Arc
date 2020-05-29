@@ -8,5 +8,6 @@ namespace Maktoob.CrossCuttingConcerns.Options
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
+        public bool EnableSsl { get; set; } = true;
     }
 }

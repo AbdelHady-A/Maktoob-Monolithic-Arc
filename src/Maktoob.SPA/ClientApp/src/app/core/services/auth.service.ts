@@ -84,6 +84,7 @@ export class AuthService implements IAuthService {
     } else {
       false;
     }
+    return false;
   }
 
 
@@ -101,7 +102,6 @@ export class AuthService implements IAuthService {
     const result = await this.http.post<GResult<any>>(this.BASE_URL + 'SignIn', command).toPromise();
     if (result.Succeeded) {
       this.UpdateToken(result.Outcome);
-      this.router.navigate(['']);
     }
   }
 
@@ -135,14 +135,10 @@ export class AuthService implements IAuthService {
         this.UpdateToken(null);
         this.router.navigate(['/auth']);
       }
-    } catch (errors) {
-      errors.forEach(error => {
-        if (error?.Code == 'Unauthorized') {
-          // signout
-          this.UpdateToken(null);
-          this.router.navigate(['/auth']);
-        }
-      })
+    } catch {
+      // signout
+      this.UpdateToken(null);
+      this.router.navigate(['/auth']);
     }
   }
 

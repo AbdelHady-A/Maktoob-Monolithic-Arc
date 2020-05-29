@@ -1,0 +1,11 @@
+@import "cx-button/cx-button.component.scss";
+@import "cx-slide-toggle/cx-slide-toggle.component.scss";
+
+@mixin gsc-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
+  @include cx-button-theme($theme, $grid-breakpoints, $mat-grid-breakpoints);
+  @include cx-slide-toggle-theme(
+    $theme,
+    $grid-breakpoints,
+    $mat-grid-breakpoints
+  );
+}

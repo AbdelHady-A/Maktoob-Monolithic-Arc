@@ -15,12 +15,13 @@ namespace Maktoob.Domain.Services
     public class UserService : CrudService<User> ,IUserService
     {
 
-        public UserService(IUserRepository userRepository,
-        IUnitOfWork unitOfWork,
-        GErrorDescriber errorDescriber,
-        IKeyNormalizer keyNormalizer,
-        IPasswordHasher passwordHasher,
-        IEnumerable<IValidator<User>> validators): base(userRepository, validators, errorDescriber, unitOfWork)
+        public UserService(
+            IUserRepository userRepository,
+            GErrorDescriber errorDescriber,
+            IKeyNormalizer keyNormalizer,
+            IPasswordHasher passwordHasher,
+            IEnumerable<IValidator<User>> validators
+            ): base(userRepository, validators, errorDescriber)
         {
             KeyNormalizer = keyNormalizer;
             PasswordHasher = passwordHasher;

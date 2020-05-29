@@ -10,8 +10,8 @@ import { ILangFacade } from '../core/facades/lang.facade';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  vm$: Observable<LangState> = this.langService.ViewModel$;
+  vm$: Observable<LangState> = this.langFacade.ViewModel$;
 
-  constructor(public langService: ILangFacade) { }
+  constructor(public langFacade: ILangFacade) { }
   ngOnInit(): void { }
 }

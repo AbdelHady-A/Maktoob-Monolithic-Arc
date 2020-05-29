@@ -1,0 +1,25 @@
+@mixin theming($theme) {
+  $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  .hover:hover {
+    background-color: map-get($background, hover);
+  }
+
+  .bg {
+    &-app-bar {
+      background-color: map-get($background, app-bar);
+    }
+    &-disabled-button {
+      background-color: mat-color($background, disabled-button);
+    }
+  }
+
+  .fg {
+    &-text {
+      color: mat-color($foreground, text);
+    }
+  }
+}

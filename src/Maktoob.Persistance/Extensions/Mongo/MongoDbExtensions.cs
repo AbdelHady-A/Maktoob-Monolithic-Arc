@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using System;
 using System.Security.Authentication;
 
 namespace Maktoob.Persistance.Extensions.Mongo
@@ -12,27 +13,36 @@ namespace Maktoob.Persistance.Extensions.Mongo
     {
         public static void AddMongoDb(this IServiceCollection services)
         {
+
+            var mongoDbOptions = services.BuildServiceProvider().GetRequiredService<IOptions<MongoDbOptions>>();
+            if (mongoDbOptions == null)
+            {
+                throw new ArgumentNullException(nameof(MongoDbOptions));
+            }
+            var options = mongoDbOptions.Value;
+
             services.AddSingleton<IMongoClient>(serviceProvider =>
             {
-                var mongoDbSettings = serviceProvider.GetRequiredService<IOptions<MongoDbOptions>>();
-                var mongoClient = new MongoClient(mongoDbSettings.Value.ConnectionString);
-                mongoClient.Settings.SslSettings = new SslSettings
+                var mongoClient = new MongoClient(options.ConnectionString);
+                if (options.EnableSsl)
                 {
-                    EnabledSslProtocols = SslProtocols.Tls12
-                };
+                    mongoClient.Settings.SslSettings = new SslSettings
+                    {
+                        EnabledSslProtocols = SslProtocols.Tls12
+                    };
+                }
                 return mongoClient;
             });
             services.AddScoped(serviceProvider =>
             {
-                var mongoDbSettings = serviceProvider.GetRequiredService<IOptions<MongoDbOptions>>();
                 var mongoClient = serviceProvider.GetRequiredService<IMongoClient>();
-                return mongoClient.GetDatabase(mongoDbSettings.Value.DatabaseName);
+                return mongoClient.GetDatabase(options.DatabaseName);
             });
             RegisterConventions();
         }
         private static void RegisterConventions()
         {
-            ConventionRegistry.Register("MaktoobConvention", new MongoConvention(), _ => true);
+            ConventionRegistry.Register("MaktoobConvention", new MongoDbConvention(), _ => true);
         }
     }
 }

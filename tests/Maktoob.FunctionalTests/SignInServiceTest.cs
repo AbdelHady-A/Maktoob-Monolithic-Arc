@@ -33,10 +33,10 @@ namespace Maktoob.FunctionalTests
             var keyNormalizer = new NameNormalizer();
             var passwordHasher = new PasswordHasher();
             var unitOfWork = new UnitOfWork(context);
-            var userRepository = new UserRepository(context);
-            var userLoginRepository = new UserLoginRepository(context);
+            var userRepository = new UserRepository(context, unitOfWork);
+            var userLoginRepository = new UserLoginRepository(context, unitOfWork);
             var userValidator = new IValidator<User>[] { new UserValidator(userRepository, keyNormalizer, _errorDescriber) };
-            _userService = new UserService(userRepository, unitOfWork, _errorDescriber, keyNormalizer, passwordHasher, userValidator);
+            _userService = new UserService(userRepository, _errorDescriber, keyNormalizer, passwordHasher, userValidator);
             var jsonWebTokenOptions = new JsonWebTokenOptions
             {
                 Issuer = "issuer",
@@ -69,7 +69,7 @@ namespace Maktoob.FunctionalTests
             var userClaimsFactory = new UserClaimsFactory();
             var refreshTokenGenerator = new RefreshTokenGenerator();
             _signInService = new SignInService(_userService,
-                jsonWebTokenCoder, userLoginRepository, unitOfWork,
+                jsonWebTokenCoder, userLoginRepository,
                 _errorDescriber, userClaimsFactory, refreshTokenGenerator, null,
                 Options.Create(jsonWebTokenOptions));
         }

@@ -1,0 +1,21 @@
+<div class="d-flex flex-row bg-app-bar search-header z5" [class.active]="Active">
+    <div *ngIf="Active" class="logo d-flex" (click)="_CloseSearch()">
+        <div class="icon-act rounded-circle m-auto">
+            <mat-icon class="m-auto material-icons-round search-header-back">arrow_back</mat-icon>
+        </div>
+    </div>
+    <div class="rounded-pill d-flex search-header-box mx-2 flex-fill bg-disabled-button" app-throttle-click
+        (ThrottleClick)="_OpenSearch()" (click)="$event.stopPropagation()">
+        <div class="icon rounded-circle">
+            <mat-icon class="m-auto">search</mat-icon>
+        </div>
+        <div class="search-header-box-input d-flex flex-row flex-fill" [class.active]="Active"
+            (click)="$event.stopPropagation()">
+            <div>
+                <input class="flex-fill fg-text" type="text" placeholder="{{ 'Nav.Search' | translate }}"
+                    (click)="_OpenSearch()" #SearchInput>
+            </div>
+            <div class="transparent px-2"></div>
+        </div>
+    </div>
+</div>

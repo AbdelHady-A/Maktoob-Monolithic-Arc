@@ -30,9 +30,9 @@ namespace Maktoob.FunctionalTests
             var keyNormalizer = new NameNormalizer();
             var passwordHasher = new PasswordHasher();
             var unitOfWork = new UnitOfWork(context);
-            var userRepository = new UserRepository(context);
+            var userRepository = new UserRepository(context, unitOfWork);
             var userValidator = new IValidator<User>[] { new UserValidator(userRepository, keyNormalizer, _errorDescriber) };
-            _userService = new UserService(userRepository, unitOfWork, _errorDescriber, keyNormalizer, passwordHasher, userValidator);
+            _userService = new UserService(userRepository, _errorDescriber, keyNormalizer, passwordHasher, userValidator);
         }
 
         [Fact]

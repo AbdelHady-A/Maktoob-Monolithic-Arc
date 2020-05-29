@@ -10,12 +10,10 @@ using Maktoob.SPA.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using NSwag;
 using NSwag.Generation.Processors.Security;
@@ -23,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 
 namespace Maktoob.SPA
 {
@@ -57,64 +54,9 @@ namespace Maktoob.SPA
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
-            //services.AddIdentityCore<User>(options =>
-            //{
-
-            //    // Password settings.
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequiredLength = 6;
-            //    options.Password.RequiredUniqueChars = 1;
-
-            //    // Lockout settings.
-            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //    options.Lockout.MaxFailedAccessAttempts = 5;
-            //    options.Lockout.AllowedForNewUsers = true;
-
-            //    // User settings.
-            //    options.User.AllowedUserNameCharacters =
-            //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            //    options.User.RequireUniqueEmail = true;
-
-            //    options.SignIn.RequireConfirmedAccount = false;
-            //    options.SignIn.RequireConfirmedEmail = false;
-            //    options.SignIn.RequireConfirmedPhoneNumber = false;
-            //})
-            //    .AddSignInManager()
-            //    .AddDefaultTokenProviders()
-            //    .AddErrorDescriber<GErrorDescriber>()
-            //    .AddEntityFrameworkStores<MaktoobDbContext>();
-            //services.AddIdentity<User, Role>(options =>
-            //{
-
-            //    // Password settings.
-            //    options.Password.RequireDigit = true;
-            //    options.Password.RequireLowercase = true;
-            //    options.Password.RequireNonAlphanumeric = true;
-            //    options.Password.RequireUppercase = true;
-            //    options.Password.RequiredLength = 6;
-            //    options.Password.RequiredUniqueChars = 1;
-
-            //    // Lockout settings.
-            //    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            //    options.Lockout.MaxFailedAccessAttempts = 5;
-            //    options.Lockout.AllowedForNewUsers = true;
-
-            //    // User settings.
-            //    options.User.AllowedUserNameCharacters =
-            //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-            //    options.User.RequireUniqueEmail = true;
-
-            //    options.SignIn.RequireConfirmedAccount = false;
-            //    options.SignIn.RequireConfirmedEmail = false;
-            //    options.SignIn.RequireConfirmedPhoneNumber = false;
-            //}).AddEntityFrameworkStores<MaktoobDbContext>()
-            //.AddErrorDescriber<GErrorDescriber>();
 
             services.Configure<JsonWebTokenOptions>(Configuration.GetSection("JsonWebToken"));
-            services.Configure<MongoDbOptions>(Configuration.GetSection("Mongo"));
+            services.Configure<MongoDbOptions>(Configuration.GetSection("MongoDb"));
 
             services.AddInfrastructure();
             services.AddPersistence();
@@ -123,7 +65,7 @@ namespace Maktoob.SPA
             services.AddApplication();
 
             services.AddControllers();
-            services.AddMongoDb();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -148,31 +90,6 @@ namespace Maktoob.SPA
                     document.Info.Title = "Maktoob API";
                 };
             });
-            //    options =>
-            //{
-            //    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Maktoob API", Version = "v1" });
-            //    //var openApiSecurityScheme = new OpenApiSecurityScheme
-            //    //{
-            //    //    Description = "JWT Authorization header using the bearer scheme",
-            //    //    Name = "Authorization",
-            //    //    In = ParameterLocation.Header,
-            //    //    Type = SecuritySchemeType.ApiKey
-            //    //};
-            //    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-            //    {
-            //        Name = "Authorization",
-            //        Type = SecuritySchemeType.ApiKey,
-            //        Scheme = "bearer",
-            //        BearerFormat = "JWT",
-            //        In = ParameterLocation.Header,
-            //        Description = "JWT Authorization header using the Bearer scheme.",
-            //    });
-            //    //////Add Operation Specific Authorization///////
-            //    options.OperationFilter<AuthOperationFilter>();
-            //    //var openApiSecurityRequirement = new OpenApiSecurityRequirement();
-            //    //openApiSecurityRequirement.Add(openApiSecurityScheme, new List<string> { "Bearer" });
-            //    //options.AddSecurityRequirement(openApiSecurityRequirement);
-            //}
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -180,15 +97,14 @@ namespace Maktoob.SPA
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<LangMiddleware>();
-            app.UseDeveloperExceptionPage();
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
-                //app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
                 app.UseHttpsRedirection();
@@ -217,18 +133,13 @@ namespace Maktoob.SPA
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
-            app.UseReDoc();
-            //app.UseSwagger(options =>
-            //{
-            //    options.RouteTemplate = "swagger/{documentname}/swagger.json";
-            //});
+            if (env.IsDevelopment())
+            {
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
+                app.UseReDoc();
+            }
 
-            //app.UseSwaggerUi3(options =>
-            //{
-            //    options.SwaggerEndpoint("v1/swagger.json", "Maktoob API");
-            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

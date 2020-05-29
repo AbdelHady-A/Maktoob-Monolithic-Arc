@@ -7,16 +7,106 @@
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&amp;display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+    rel="stylesheet" />
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#00b726">
   <meta name="Description"
     content="Maktoob is a social network that focuses on social relations between relatives and works to strengthen them.">
 </head>
 
-<body class="mat-typography">
+<body class="mat-typography mat-app-background">
   <style>
-    .lds-ellipsis{display:inline-block;position:relative;width:80px;height:80px;margin:auto}.lds-ellipsis div{position:absolute;top:33px;width:13px;height:13px;border-radius:50%;background:#00b726;animation-timing-function:cubic-bezier(0,1,1,0)}.lds-ellipsis div:nth-child(1){left:8px;animation:lds-ellipsis1 .6s infinite}.lds-ellipsis div:nth-child(2){left:8px;animation:lds-ellipsis2 .6s infinite}.lds-ellipsis div:nth-child(3){left:32px;animation:lds-ellipsis2 .6s infinite}.lds-ellipsis div:nth-child(4){left:56px;animation:lds-ellipsis3 .6s infinite}@keyframes lds-ellipsis1{0%{transform:scale(0)}100%{transform:scale(1)}}@keyframes lds-ellipsis3{0%{transform:scale(1)}100%{transform:scale(0)}}@keyframes lds-ellipsis2{0%{transform:translate(0,0)}100%{transform:translate(24px,0)}}.in-the-middle{text-align:center;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;min-height:100vh;position:relative}.in-the-middle::after,.in-the-middle::before{content:"";display:block;-webkit-box-flex:1;box-flex:1;-webkit-flex-grow:1;flex-grow:1;height:24px}
+    .lds-ellipsis {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: auto
+    }
+
+    .lds-ellipsis div {
+      position: absolute;
+      top: 33px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: #00b726;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0)
+    }
+
+    .lds-ellipsis div:nth-child(1) {
+      left: 8px;
+      animation: lds-ellipsis1 .6s infinite
+    }
+
+    .lds-ellipsis div:nth-child(2) {
+      left: 8px;
+      animation: lds-ellipsis2 .6s infinite
+    }
+
+    .lds-ellipsis div:nth-child(3) {
+      left: 32px;
+      animation: lds-ellipsis2 .6s infinite
+    }
+
+    .lds-ellipsis div:nth-child(4) {
+      left: 56px;
+      animation: lds-ellipsis3 .6s infinite
+    }
+
+    @keyframes lds-ellipsis1 {
+      0% {
+        transform: scale(0)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    @keyframes lds-ellipsis3 {
+      0% {
+        transform: scale(1)
+      }
+
+      100% {
+        transform: scale(0)
+      }
+    }
+
+    @keyframes lds-ellipsis2 {
+      0% {
+        transform: translate(0, 0)
+      }
+
+      100% {
+        transform: translate(24px, 0)
+      }
+    }
+
+    .in-the-middle {
+      text-align: center;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative
+    }
+
+    .in-the-middle::after,
+    .in-the-middle::before {
+      content: "";
+      display: block;
+      -webkit-box-flex: 1;
+      box-flex: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      height: 24px
+    }
   </style>
 
   <app>

@@ -16,11 +16,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { ServiceProviders } from '../core/services/services';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { OverlayModule } from '@angular/cdk/overlay';
+import { LoaderComponent } from './loader.component';
 
 @NgModule({
-  declarations: [SignUpComponent, AuthComponent, SignInComponent],
+  declarations: [SignUpComponent, AuthComponent, SignInComponent, LoaderComponent],
   imports: [
     SharedModule,
     AuthRoutingModule,
@@ -29,9 +30,10 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatIconModule,
     MatSelectModule,
     MatButtonModule,
-    MatStepperModule,
     FormsModule,
+    MatProgressBarModule,
     ReactiveFormsModule,
+    OverlayModule,
     TranslateModule.forChild({
       extend: true,
       loader: {
@@ -44,10 +46,10 @@ import {MatStepperModule} from '@angular/material/stepper';
     })
   ],
   providers: [
-    ServiceProviders,
     { provide: ILangFacade, useClass: LangFacade },
     FacadeProviders
-  ]
+  ],
+  entryComponents: [LoaderComponent]
 })
 export class AuthModule { }
 
