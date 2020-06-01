@@ -1,0 +1,16 @@
+<div (click)="ChangeTheme()" class="mx-auto cursor-pointer hover d-flex p-2 rounded-lg">
+    <div class="d-flex">
+        <div class="icon-deact rounded-circle">
+            <mat-icon class="m-auto dark-mode-icon">
+                brightness_2
+            </mat-icon>
+        </div>
+        <span class="my-auto mx-2 text-nm">
+            <ng-content></ng-content>
+        </span>
+    </div>
+    <span class="spacer"></span>
+    <div (click)="$event.stopPropagation()" class="m-auto">
+        <gen-slide-toggle [(Checked)]="Checked" (Change)="ChangeTheme()"></gen-slide-toggle>
+    </div>
+</div>

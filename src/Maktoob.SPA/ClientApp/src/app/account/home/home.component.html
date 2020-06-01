@@ -1,0 +1,12 @@
+<div>
+    <app-theme-mode *ngIf="(theme$ | async) as theme" [Theme]="theme.ActiveTheme" (Change)="ChangeTheme($event)">
+        {{ 'DarkMode.Label' | translate }}
+    </app-theme-mode>
+    <gen-nav-button [FirstIcon]="'settings'" [SecondIcon]="'keyboard_arrow_right'" (click)="Navigate('settings')">
+        {{ 'Settings.Label' | translate }}
+    </gen-nav-button>
+
+    <gen-nav-button [FirstIcon]="'logout'" (click)="SignOutAsync()">
+        {{ 'SignOut.Label' | translate }}
+    </gen-nav-button>
+</div>

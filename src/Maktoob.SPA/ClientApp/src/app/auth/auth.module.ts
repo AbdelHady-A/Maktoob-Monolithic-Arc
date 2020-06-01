@@ -5,7 +5,6 @@ import { SignUpComponent } from './signup/signup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
-import { SharedModule } from '../shared/shared.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthComponent } from './auth.component';
 import { ILangFacade, LangFacade } from '../core/facades/lang.facade';
@@ -19,11 +18,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LoaderComponent } from './loader.component';
+import { ThrottleClickModule } from '../shared/directive/throttle-click.directive';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [SignUpComponent, AuthComponent, SignInComponent, LoaderComponent],
+  declarations: [
+    SignUpComponent,
+    AuthComponent,
+    SignInComponent,
+    LoaderComponent
+  ],
   imports: [
-    SharedModule,
+    CommonModule,
+    ThrottleClickModule,
     AuthRoutingModule,
     MatCardModule,
     MatInputModule,

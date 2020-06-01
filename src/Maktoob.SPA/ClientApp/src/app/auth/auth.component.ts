@@ -14,4 +14,7 @@ export class AuthComponent implements OnInit {
 
   constructor(public langFacade: ILangFacade) { }
   ngOnInit(): void { }
+  ChangeLang(langKey: string) {
+    this.langFacade.ChangeLang(langKey)
+  }
 }

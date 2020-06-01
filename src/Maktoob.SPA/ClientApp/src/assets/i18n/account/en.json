@@ -1,0 +1,14 @@
+{
+    "DarkMode": {
+        "Label": "Dark Mode"
+    },
+    "Settings": {
+        "Label": "Settings & Privacy",
+        "Language": {
+            "Label": "Language"
+        }
+    },
+    "SignOut": {
+        "Label": "Sign out"
+    }
+}

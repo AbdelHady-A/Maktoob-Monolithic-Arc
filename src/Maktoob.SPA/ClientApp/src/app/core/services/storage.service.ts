@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { StorageState } from '../states/storage.state';
-import { isPlatformServer, isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export abstract class IStorageService {
@@ -32,7 +31,7 @@ export class StorageService implements IStorageService {
     }
 
     this.store.next(this.state);
-    localStorage[key] = JSON.stringify(value);
+    this.SetItem(key, value)
   }
 
   public GetState<T = any>(key: string): Observable<T> {

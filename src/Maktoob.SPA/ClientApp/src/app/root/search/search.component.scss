@@ -8,13 +8,13 @@
   background-attachment: local;
   background-size: contain;
   background-repeat: no-repeat;
-  [dir="ltr"] :host & {
-    box-shadow: rgba(0, 0, 0, 0.2) 6px 12px 12px 0px,
-      rgba(255, 255, 255, 0.05) 0px 0px 0px 0px inset;
-  }
+  // [dir="ltr"] :host & {
+  box-shadow: rgba(0, 0, 0, 0.2) 6px 12px 12px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 0px inset !important;
+  // }
   [dir="rtl"] :host & {
     box-shadow: rgba(0, 0, 0, 0.2) -6px 12px 12px 0px,
-      rgba(255, 255, 255, 0.05) 0px 0px 0px 0px inset;
+      rgba(255, 255, 255, 0.05) 0px 0px 0px 0px inset !important;
   }
   @media (map-get($mat-grid-breakpoints, xs)) {
     border-radius: none;

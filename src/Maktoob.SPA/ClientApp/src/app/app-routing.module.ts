@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UnauthGuard } from './core/guards/unauth.guard';
@@ -21,8 +21,8 @@ const routes: Routes = [
   },
   {
     outlet: 'controlRouter',
-    path: 'control',
-    loadChildren: () => import('./root/control/control.module').then(m => m.ControlModule),
+    path: 'account',
+    loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
   },
   {
     path: '',

@@ -131,17 +131,19 @@ export class AuthService implements IAuthService {
     try {
       const result = await this.http.post<GResult>(this.BASE_URL + 'SignOut', command).toPromise();
       if (result?.Succeeded) {
-        // signout
-        this.UpdateToken(null);
-        this.router.navigate(['/auth']);
+        this.signOut()
       }
     } catch {
-      // signout
-      this.UpdateToken(null);
-      this.router.navigate(['/auth']);
+      this.signOut();
     }
   }
 
+
+  private signOut() {
+    this.router.navigate([{ outlets: { primary: ['auth'], controlRouter: null } }])
+    this.UpdateToken(null);
+  }
+  
   private parseJwt(token: string) {
     try {
       return JSON.parse(atob(token.split('.')[1]));

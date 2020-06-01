@@ -4,10 +4,9 @@
             <router-outlet></router-outlet>
             <div class="row mt-3 mx-1">
                 <div class="">
-                    <mat-select [value]="vm.ActiveLang.key" class="custom-mat-select" #lang_select>
-                        <mat-option *ngFor="let l of vm.AvailableLangs" value="{{l.key}}"
-                            (click)="langFacade.changeLang(lang_select.value)">
-                            {{ l.name }}
+                    <mat-select [value]="vm.ActiveLang.key" class="custom-mat-select" (valueChange)="ChangeLang($event)">
+                        <mat-option *ngFor="let lang of vm.AvailableLangs" [value]="lang.key">
+                            {{ lang.name }}
                         </mat-option>
                     </mat-select>
                 </div>

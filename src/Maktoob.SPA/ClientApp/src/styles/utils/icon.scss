@@ -15,7 +15,6 @@
     background-color: transparent;
     color: mat-color($foreground, hint-text);
   }
-
   .icon-deact {
     @extend .icon;
     color: mat-color($foreground, icon);

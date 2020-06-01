@@ -1,3 +1,5 @@
+@import "variables";
+
 * {
   box-sizing: border-box !important;
 }
@@ -49,7 +51,7 @@ div {
   z-index: 4;
 }
 .z5 {
-  z-index: 2000;
+  z-index: 5;
 }
 
 .scale-x1-25 {
@@ -67,6 +69,14 @@ div {
 
 .scale-x4 {
   transform: scale(4);
+}
+
+[dir="rtl"] .rtl-rotate-180 {
+  transform: rotate(180deg);
+}
+
+[dir="ltr"] .ltr-rotate-180 {
+  transform: rotate(180deg);
 }
 
 .spacer {
@@ -88,4 +98,42 @@ div {
 .mat-ripple-element {
   top: 0 !important;
   left: 0 !important;
+}
+
+.text-nm {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.text-lg {
+  @extend .text-nm;
+  font-size: 1.1rem;
+}
+
+.text-xlg {
+  @extend .text-nm;
+  font-size: 1.5rem;
+}
+
+.shadow-w {
+  border-radius: 0.5rem;
+  min-width: 355px;
+  background-attachment: local;
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 400px;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba($color: #fff, $alpha: 0.09) 0px 0px 0px 1px inset;
+
+  @media (map-get($mat-grid-breakpoints, xs)) {
+    box-shadow: none;
+    border-radius: none;
+    position: fixed;
+    top: 56px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
 }

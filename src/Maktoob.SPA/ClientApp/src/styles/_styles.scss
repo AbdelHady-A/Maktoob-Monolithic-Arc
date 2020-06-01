@@ -3,6 +3,6 @@
 @import "theming.scss";
 @mixin local-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
   @include theming($theme);
-  @include gsc-theme($theme, $grid-breakpoints, $mat-grid-breakpoints);
+  @include gen-theme($theme, $grid-breakpoints, $mat-grid-breakpoints);
   @include icon-theme($theme);
 }

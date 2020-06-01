@@ -3,36 +3,41 @@ import { CommonModule } from '@angular/common';
 
 import { RootRoutingModule } from './root-routing.module';
 import { HomeComponent } from './home/home.component';
-import { NavComponent } from './nav/nav.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { RootComponent } from './root.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ILangFacade, LangFacade } from '../core/facades/lang.facade';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu'
-import { FacadeProviders } from './facades/facades';
 import { MatCardModule } from '@angular/material/card';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoaderFactory } from '../app.module';
 import { HttpClient } from '@angular/common/http';
-import { ControlRouterComponent } from './facades/overlay.facade';
-import { ControlBoxComponent } from './control-box/control-box.component';
-import { SearchBoxComponent } from './search-box/search-box.component';
-import { SharedModule } from '../shared/shared.module';
+import { NavBoxComponent } from './nav-box/nav-box.component';
+import { SearchBoxComponent } from './search/search-box/search-box.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ILangFacade, LangFacade } from '../core/facades/lang.facade';
+import { FacadeProviders } from './facades/facades';
+import { ThrottleClickModule } from '../shared/directive/throttle-click.directive';
+
+
+export function TranslateHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/root/', '.json');
+}
+
 
 @NgModule({
   declarations: [
     HomeComponent,
-    NavComponent,
+    NavBarComponent,
     RootComponent,
-    ControlRouterComponent,
-    ControlBoxComponent,
+    NavBoxComponent,
     SearchBoxComponent
   ],
   imports: [
     CommonModule,
+    ThrottleClickModule,
     RootRoutingModule,
     MatButtonModule,
     MatToolbarModule,
@@ -41,7 +46,6 @@ import { SharedModule } from '../shared/shared.module';
     MatIconModule,
     MatMenuModule,
     MatCardModule,
-    SharedModule,
     TranslateModule.forChild({
       extend: true,
       loader: {
@@ -49,8 +53,7 @@ import { SharedModule } from '../shared/shared.module';
         useFactory: TranslateHttpLoaderFactory,
         deps: [HttpClient]
       },
-      isolate: true,
-      defaultLanguage: 'en'
+      isolate: true
     })
   ],
   providers: [

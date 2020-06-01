@@ -1,0 +1,16 @@
+<div *ngIf="(vm$ | async) as vm" (click)="$event.stopPropagation()">
+    <div class="row">
+        <div class="col-7">
+
+        </div>
+        <!-- <span class="spacer"></span> -->
+        <mat-form-field class="col-5" appearance="fill">
+            <mat-label>{{ 'Settings.Language.Label' | translate }}</mat-label>
+            <mat-select (click)="$event.stopPropagation()" (valueChange)="ChangeLang($event)"
+                [value]="vm.ActiveLang.key">
+                <mat-option *ngFor="let lang of vm.AvailableLangs" [value]="lang.key"
+                    (click)="$event.stopPropagation()">{{lang.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>

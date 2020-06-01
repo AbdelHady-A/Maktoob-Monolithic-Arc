@@ -1,0 +1,26 @@
+<div class="z3 position-fixed d-flex" *ngIf="(vm$ | async) as vm">
+    <mat-toolbar class="nav unselectable z3">
+
+        <mat-toolbar-row class="secondary-toolbar">
+            <img src="assets/logo.svg" class="logo" alt="logo" />
+            <app-search-box (OpenSearch)="_OpenControl('search', '')" (CloseSearch)="_CloseControl()"
+                [Active]="vm.ActiveOverlayType === 'search'"></app-search-box>
+            <span class="spacer"></span>
+            <app-nav-box [ActivePath]="vm.ActivePath" (OpenControl)="_OpenControl('control',$event)">
+            </app-nav-box>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row>
+            <img src="assets/logo.svg" class="logo primary-toolbar" alt="logo" />
+            <app-search-box (OpenSearch)="_OpenSearch()" [Active]="vm.ActiveOverlayType === 'search'"
+                class="primary-toolbar"></app-search-box>
+            <span class="spacer"></span>
+
+            <app-nav-box [ActivePath]="vm.ActivePath" (OpenControl)="_OpenControl('control',$event)"
+                class="primary-toolbar"></app-nav-box>
+
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="nav-bottom-border"></div>
+
+</div>

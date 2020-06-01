@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, Component, ElementRef, ViewChild, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, OnDestroy, Renderer2, RendererFactory2 } from '@angular/core';
 import { Overlay, OverlayRef, PositionStrategy } from '@angular/cdk/overlay';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -9,17 +9,6 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { OverlayType, OverlayState } from 'src/app/core/states/overlay.state';
 
 const SearchComponent = async () => import('../search/search.component').then(c => c.SearchComponent)
-
-@Component({
-  selector: 'app-control-router',
-  template: `
-  <div (click)="$event.stopPropagation()">
-  <router-outlet name="controlRouter"></router-outlet>
-  </div>
-  `
-})
-
-export class ControlRouterComponent { }
 
 
 @Injectable()
@@ -51,7 +40,19 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
   ) {
 
     this.renderer = this.rendrerFactory.createRenderer(null, null);
-    this.listenerFn = this.renderer.listen('window', 'click', () => {
+    this.listenerFn = this.renderer.listen('window', 'click', (e) => {
+
+      const classList = e.target.classList;
+      let isOverlay = false;
+      for (const c of classList) {
+        if (c.startsWith("cdk-overlay")) {
+          isOverlay = true;
+          break
+        }
+      }
+      if (isOverlay) {
+        return;
+      }
       if (this.state.Apparent) {
         this.Close();
       }
@@ -86,10 +87,9 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
       this.overlayRef.dispose();
       this.overlayRef = null;
       this.updateState({ ActiveOverlayType: null, Apparent: false, ActivePath: null })
+      this.ClosePanel();
     }
   }
-
-
 
   public async Open(overlayType: OverlayType, path: string): Promise<void> {
 
@@ -99,7 +99,7 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
 
     if (this.state.Apparent) {
       if (overlayType === 'control') {
-        this.router.navigate([{ outlets: { controlRouter: ['control', path] } }], { skipLocationChange: true })
+        this.router.navigate([{ outlets: { controlRouter: [path] } }], { skipLocationChange: true })
       }
       return
     }
@@ -112,16 +112,10 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
       })
     }
     if (overlayType === 'control') {
-
-      if (!this.overlayRef.hasAttached()) {
-        this.overlayRef.attach(new ComponentPortal(ControlRouterComponent));
-      }
-
-      this.router.navigate([{ outlets: { controlRouter: ['control', path] } }], { skipLocationChange: true });
+      this.router.navigate([{ outlets: { controlRouter: [path] } }], { skipLocationChange: true });
     }
 
     if (overlayType === 'search') {
-
       if (!this.overlayRef?.hasAttached()) {
         this.overlayRef.attach(new ComponentPortal(await SearchComponent()));
       }
@@ -145,14 +139,10 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
       } else {
         positionStrategy = positionStrategy.top('64px');
       }
-    } else {
-      positionStrategy.top('56px');
-    }
-    if (overlayType === 'control') {
-      if (this.dir.value === "rtl") {
-        positionStrategy = positionStrategy.left('30px')
+      if (document?.body.dir === 'rtl') {
+        positionStrategy = positionStrategy.right('0')
       } else {
-        positionStrategy = positionStrategy.right('30px')
+        positionStrategy = positionStrategy.left('0')
       }
     }
     return positionStrategy;
@@ -160,5 +150,9 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
 
   private updateState(state: OverlayState) {
     this.store.next(this.state = state);
+  }
+
+  private ClosePanel() {
+    this.router.navigate([{ outlets: { controlRouter: null } }], { skipLocationChange: true });
   }
 }

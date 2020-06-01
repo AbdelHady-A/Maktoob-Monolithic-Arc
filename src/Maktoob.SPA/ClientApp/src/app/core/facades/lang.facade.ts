@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
 import { map, distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { IStorageService } from '../services/storage.service';
@@ -23,21 +23,21 @@ export abstract class ILangFacade {
     /**
      * Allows quick snapshot access to data for ngOnInit() purposes
      */
-    abstract getStateSanpshot(): LangState;
+    abstract GetStateSanpshot(): LangState;
     /**
      * Allows change language of the application
      * @param langKey an key of the language
      */
-    abstract changeLang(langKey: string): void
+    abstract ChangeLang(langKey: string): void
 }
 
 
 @Injectable()
-export class LangFacade implements ILangFacade {
+export class LangFacade implements ILangFacade, OnDestroy {
 
     private store = new BehaviorSubject<LangState>(_state);
     private state$ = this.store.asObservable();
-
+    private subscriptions: Subscription[] = [];
 
     ViewModel$: Observable<LangState> = combineLatest(
         this.state$.pipe(map(state => state.AvailableLangs), distinctUntilChanged()),
@@ -48,11 +48,11 @@ export class LangFacade implements ILangFacade {
 
     // ------- Public Methods ------------------------
 
-    public getStateSanpshot(): LangState {
+    public GetStateSanpshot(): LangState {
         return { ..._state, ActiveLang: { ..._state.ActiveLang } };
     }
 
-    public changeLang(langKey: string): void {
+    public ChangeLang(langKey: string): void {
         const lang = _state.AvailableLangs.find(l => l.key == langKey);
         this.translateService.use(lang.key);
         document.body.dir = lang.dir;
@@ -64,18 +64,33 @@ export class LangFacade implements ILangFacade {
     /** Update internal state cache and emit from store... */
     private updateState(state: LangState) {
         // persist selected language to storage
-        this.storageService.SetItem('lang', state.ActiveLang.key);
+        this.storageService.SetState('lang', state.ActiveLang.key);
         this.store.next(_state = state);
     }
+
+    private unSubscribeAll() {
+        this.subscriptions.forEach(sub => {
+            sub.unsubscribe();
+        })
+        this.subscriptions = []
+    }
+
     constructor(private translateService: TranslateService, private storageService: IStorageService) {
         // initialize active language with the previously stored language
         let lang = this.storageService.GetItem('lang');
         if (lang) {
-            this.changeLang(lang);
+            this.ChangeLang(lang);
         } else {
-            lang = this.getStateSanpshot().ActiveLang.key;
-            this.storageService.SetItem('lang', lang);
+            lang = this.GetStateSanpshot().ActiveLang.key;
+            this.storageService.SetState('lang', lang);
         }
+        const sub = this.storageService.GetState<string>('lang').subscribe(langKey => {
+            this.ChangeLang(langKey);
+        })
+        this.subscriptions = [...this.subscriptions, sub];
+    }
+    ngOnDestroy(): void {
+        this.unSubscribeAll();
     }
 }
 

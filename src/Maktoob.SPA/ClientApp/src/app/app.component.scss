@@ -1,0 +1,20 @@
+@import "variables";
+
+.nav-overlay-continer {
+    width: fit-content;
+    z-index: 1000;
+    position: fixed;
+    top: 56px;
+    right: 30px;
+    [dir="rtl"] :host & {
+      right: unset;
+      left: 30px;
+    }
+    @media (map-get($mat-grid-breakpoints, xs)) {
+      width: 100% !important;
+      top: 56px !important;
+      right: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+    }
+  }

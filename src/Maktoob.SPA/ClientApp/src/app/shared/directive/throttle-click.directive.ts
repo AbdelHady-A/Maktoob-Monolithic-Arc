@@ -1,9 +1,9 @@
-import { Directive, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, HostListener, NgModule } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 
 @Directive({
-  selector: '[app-throttle-click]'
+  selector: '[gen-throttle-click]'
 })
 
 export class ThrottleClickDirective {
@@ -31,3 +31,10 @@ export class ThrottleClickDirective {
     this.clicks.next(event);
   }
 }
+
+
+@NgModule({
+  declarations: [ThrottleClickDirective],
+  exports: [ThrottleClickDirective]
+})
+export class ThrottleClickModule { }

@@ -71,7 +71,7 @@
                   {{hidePassword ? 'visibility_off' : 'visibility'}}
                 </mat-icon>
               </button>
-              <mat-error *ngFor="let error of vm.PasswordErrors?.slice(0,1)">
+              <mat-error *ngFor="let error of vm.PasswordErrors?.slice(0,1)"> 
                 {{ error?.Description || ( 'SignUp.Password.Errors.' + error?.Code | translate) }}
               </mat-error>
               <mat-hint>
@@ -93,7 +93,7 @@
               {{ 'SignUp.SignInLink' | translate }}
             </a>
             <!-- signup button -->
-            <button (click)="SignUpAsync()" mat-flat-button [disabled]="signUpForm.invalid" app-throttle-click
+            <button (click)="SignUpAsync()" mat-flat-button [disabled]="signUpForm.invalid" gen-throttle-click
               color="primary">{{ 'SignUp.SignUp' | translate }}</button>
           </div>
         </div>

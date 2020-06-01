@@ -11,12 +11,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
+import { ILangFacade, LangFacade } from './core/facades/lang.facade';
 
 
 export function getBaseUrl() {
    return environment.API_BASE_URL;
 }
-
 
 export function TranslateHttpLoaderFactory(http: HttpClient) {
    return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -33,17 +33,21 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
       HttpClientModule,
       ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
       TranslateModule.forRoot({
+         extend: true,
          loader: {
             provide: TranslateLoader,
             useFactory: TranslateHttpLoaderFactory,
             deps: [HttpClient]
-         }
+         },
+         isolate: true
       }),
       RouterModule,
       CoreModule
    ],
    providers: [
-      { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] }
+      { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] },
+      { provide: ILangFacade, useClass: LangFacade },
+
    ],
    bootstrap: [
       AppComponent

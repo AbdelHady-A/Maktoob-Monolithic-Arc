@@ -1,0 +1,14 @@
+{
+    "DarkMode": {
+        "Label": "الوضع المظلم"
+    },
+    "Settings": {
+        "Label": "الإعدادات والخصوصية",
+        "Language": {
+            "Label": "اللغة"
+        }
+    },
+    "SignOut":{
+        "Label": "تسجيل الخروج"
+    }
+}
