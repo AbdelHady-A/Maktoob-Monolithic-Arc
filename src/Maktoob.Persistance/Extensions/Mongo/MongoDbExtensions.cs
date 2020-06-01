@@ -24,13 +24,6 @@ namespace Maktoob.Persistance.Extensions.Mongo
             services.AddSingleton<IMongoClient>(serviceProvider =>
             {
                 var mongoClient = new MongoClient(options.ConnectionString);
-                //if (options.EnableSsl)
-                //{
-                //    mongoClient.Settings.SslSettings = new SslSettings
-                //    {
-                //        EnabledSslProtocols = SslProtocols.Tls12
-                //    };
-                //}
                 return mongoClient;
             });
             services.AddScoped(serviceProvider =>

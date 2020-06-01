@@ -140,10 +140,16 @@ export class AuthService implements IAuthService {
 
 
   private signOut() {
+    if (typeof window !== 'undefined') {
+      const classList = document?.getElementById('Control').classList;
+      if (classList.contains('active')) {
+        classList.remove('active');
+      }
+    }
     this.router.navigate([{ outlets: { primary: ['auth'], controlRouter: null } }])
     this.UpdateToken(null);
   }
-  
+
   private parseJwt(token: string) {
     try {
       return JSON.parse(atob(token.split('.')[1]));

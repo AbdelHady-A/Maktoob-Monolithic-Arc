@@ -82,9 +82,9 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
 
   public Close() {
     if (this.state.Apparent) {
-      this.overlayRef.detach();
+      this.overlayRef?.detach();
       this.unSubscribeAll();
-      this.overlayRef.dispose();
+      this.overlayRef?.dispose();
       this.overlayRef = null;
       this.updateState({ ActiveOverlayType: null, Apparent: false, ActivePath: null })
       this.ClosePanel();
@@ -92,34 +92,30 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
   }
 
   public async Open(overlayType: OverlayType, path: string): Promise<void> {
-
     if (overlayType !== this.state.ActiveOverlayType) {
       this.Close();
     }
 
-    if (this.state.Apparent) {
-      if (overlayType === 'control') {
-        this.router.navigate([{ outlets: { controlRouter: [path] } }], { skipLocationChange: true })
-      }
-      return
+    switch (overlayType) {
+      case "control":
+        this.OpenPanel(path);
+        break;
+      case "search":
+        if (!this.overlayRef) {
+          const positionStrategy = this.createPositionStrategy(overlayType);
+          this.overlayRef = this.overlay.create({
+            hasBackdrop: false,
+            positionStrategy: positionStrategy
+          })
+        }
+        if (!this.overlayRef?.hasAttached()) {
+          this.overlayRef.attach(new ComponentPortal(await SearchComponent()));
+        }
+        break;
+      default:
+        break;
     }
 
-    if (!this.overlayRef) {
-      const positionStrategy = this.createPositionStrategy(overlayType);
-      this.overlayRef = this.overlay.create({
-        hasBackdrop: false,
-        positionStrategy: positionStrategy
-      })
-    }
-    if (overlayType === 'control') {
-      this.router.navigate([{ outlets: { controlRouter: [path] } }], { skipLocationChange: true });
-    }
-
-    if (overlayType === 'search') {
-      if (!this.overlayRef?.hasAttached()) {
-        this.overlayRef.attach(new ComponentPortal(await SearchComponent()));
-      }
-    }
     this.updateState({ ActiveOverlayType: overlayType, Apparent: true, ActivePath: path });
   }
 
@@ -153,6 +149,22 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
   }
 
   private ClosePanel() {
+    if (typeof window !== 'undefined') {
+      const classList = document?.getElementById('Control').classList;
+      if (classList.contains('active')) {
+        classList.remove('active');
+      }
+    }
     this.router.navigate([{ outlets: { controlRouter: null } }], { skipLocationChange: true });
+  }
+
+  private OpenPanel(path: string) {
+    if (typeof window !== 'undefined') {
+      const classList = document?.getElementById('Control').classList;
+      if (!classList.contains('active')) {
+        classList.add('active');
+      }
+    }
+    this.router.navigate([{ outlets: { controlRouter: [path] } }], { skipLocationChange: true })
   }
 }
