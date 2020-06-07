@@ -1,9 +1,10 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Optional } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, Subscription } from 'rxjs';
 import { map, distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { IStorageService } from '../services/storage.service';
 import { LangState } from '../states/lang.state';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 let _state: LangState = {
     AvailableLangs: [
@@ -23,12 +24,20 @@ export abstract class ILangFacade {
     /**
      * Allows quick snapshot access to data for ngOnInit() purposes
      */
-    abstract GetStateSanpshot(): LangState;
+    abstract get StateSanpshot(): LangState;
     /**
      * Allows change language of the application
      * @param langKey an key of the language
      */
     abstract ChangeLang(langKey: string): void
+    /**
+     * build lang form that used to catch lang data
+     */
+    abstract BuildForm(): FormGroup;
+    /**
+     * Applay changes of form on application
+     */
+    abstract Save(): void
 }
 
 
@@ -48,8 +57,21 @@ export class LangFacade implements ILangFacade, OnDestroy {
 
     // ------- Public Methods ------------------------
 
-    public GetStateSanpshot(): LangState {
+    public get StateSanpshot(): LangState {
         return { ..._state, ActiveLang: { ..._state.ActiveLang } };
+    }
+
+    private langForm: FormGroup;
+
+    public BuildForm(): FormGroup {
+        const displayLang = this.formBuilder.control(this.StateSanpshot.ActiveLang.key, [])
+        this.langForm = this.formBuilder.group(
+            {
+                DisplayLang: displayLang
+            }
+        );
+
+        return this.langForm;
     }
 
     public ChangeLang(langKey: string): void {
@@ -57,6 +79,10 @@ export class LangFacade implements ILangFacade, OnDestroy {
         this.translateService.use(lang.key);
         document.body.dir = lang.dir;
         this.updateState({ ..._state, ActiveLang: lang });
+    }
+
+    public Save(): void {
+        this.ChangeLang(this.langForm.value.DisplayLang)
     }
 
     // ------- Private Methods ------------------------
@@ -75,13 +101,17 @@ export class LangFacade implements ILangFacade, OnDestroy {
         this.subscriptions = []
     }
 
-    constructor(private translateService: TranslateService, private storageService: IStorageService) {
+    constructor(
+        private translateService: TranslateService,
+        private storageService: IStorageService,
+        @Optional() private formBuilder: FormBuilder
+    ) {
         // initialize active language with the previously stored language
         let lang = this.storageService.GetItem('lang');
         if (lang) {
             this.ChangeLang(lang);
         } else {
-            lang = this.GetStateSanpshot().ActiveLang.key;
+            lang = this.StateSanpshot.ActiveLang.key;
             this.storageService.SetState('lang', lang);
         }
         const sub = this.storageService.GetState<string>('lang').subscribe(langKey => {
@@ -89,6 +119,7 @@ export class LangFacade implements ILangFacade, OnDestroy {
         })
         this.subscriptions = [...this.subscriptions, sub];
     }
+
     ngOnDestroy(): void {
         this.unSubscribeAll();
     }

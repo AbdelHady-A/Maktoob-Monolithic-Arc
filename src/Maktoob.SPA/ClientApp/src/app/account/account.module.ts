@@ -19,6 +19,7 @@ import { NavButtonModule } from 'src/app/shared/component/nav-button/nav-button.
 import { LanguageComponent } from './language/language.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 export function TranslateHttpLoaderFactory(http: HttpClient) {
@@ -27,7 +28,13 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
 
 
 @NgModule({
-  declarations: [AccountComponent, ThemeModeComponent, SettingsComponent, HomeComponent, LanguageComponent],
+  declarations: [
+    AccountComponent,
+    ThemeModeComponent,
+    SettingsComponent,
+    HomeComponent,
+    LanguageComponent
+  ],
   imports: [
     CommonModule,
     AccountRoutingModule,
@@ -39,6 +46,8 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     NavButtonModule,
     MatFormFieldModule,
     MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule.forChild({
       extend: true,
       loader: {

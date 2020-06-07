@@ -11,7 +11,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
-import { ILangFacade, LangFacade } from './core/facades/lang.facade';
 
 
 export function getBaseUrl() {
@@ -27,13 +26,12 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
       AppComponent,
    ],
    imports: [
-      BrowserModule.withServerTransition({ appId: 'serverApp' }),
+      BrowserModule,
       AppRoutingModule,
       BrowserAnimationsModule,
       HttpClientModule,
       ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
       TranslateModule.forRoot({
-         extend: true,
          loader: {
             provide: TranslateLoader,
             useFactory: TranslateHttpLoaderFactory,
@@ -46,8 +44,6 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
    ],
    providers: [
       { provide: 'API_BASE_URL', useFactory: getBaseUrl, deps: [] },
-      { provide: ILangFacade, useClass: LangFacade },
-
    ],
    bootstrap: [
       AppComponent

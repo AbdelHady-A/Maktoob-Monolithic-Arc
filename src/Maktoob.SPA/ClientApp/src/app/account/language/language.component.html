@@ -1,16 +1,28 @@
-<div *ngIf="(vm$ | async) as vm" (click)="$event.stopPropagation()">
-    <div class="row">
-        <div class="col-7">
+<div class="container-12" *ngIf="(vm$ | async) as vm" (click)="$event.stopPropagation()">
+    <form [formGroup]="langForm">
 
+        <div class="row mb-3">
+            <mat-form-field class="col-12" [appearance]="'fill'">
+                <mat-label>{{ 'Settings.Language.DisplayLanguage.FormField.Label' | translate }}</mat-label>
+                <mat-select (click)="$event.stopPropagation()" [formControlName]="'DisplayLang'">
+                    <mat-option *ngFor="let lang of vm.AvailableLangs" [value]="lang.key"
+                        (click)="$event.stopPropagation()">{{lang.name}}</mat-option>
+                </mat-select>
+                <mat-hint>
+                    {{ 'Settings.Language.DisplayLanguage.Label' | translate }}
+                </mat-hint>
+            </mat-form-field>
         </div>
-        <!-- <span class="spacer"></span> -->
-        <mat-form-field class="col-5" appearance="fill">
-            <mat-label>{{ 'Settings.Language.Label' | translate }}</mat-label>
-            <mat-select (click)="$event.stopPropagation()" (valueChange)="ChangeLang($event)"
-                [value]="vm.ActiveLang.key">
-                <mat-option *ngFor="let lang of vm.AvailableLangs" [value]="lang.key"
-                    (click)="$event.stopPropagation()">{{lang.name}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+    </form>
+</div>
+
+<div class="flex-fill">
+
+</div>
+
+<div class="row mt-4">
+    <div class="text-center col-12">
+        <button mat-flat-button [color]="'primary'" (click)="Save()" [disabled]="!langForm.dirty"
+            class="m-auto w-75">{{ 'Settings.Language.Save.Label' | translate }}</button>
     </div>
 </div>

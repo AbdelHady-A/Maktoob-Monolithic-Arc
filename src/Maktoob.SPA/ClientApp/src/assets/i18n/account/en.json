@@ -5,7 +5,16 @@
     "Settings": {
         "Label": "Settings & Privacy",
         "Language": {
-            "Label": "Language"
+            "Label": "Language",
+            "DisplayLanguage": {
+                "Label": "Display language for buttons, titles and other text for this account",
+                "FormField":{
+                    "Label": "Display language"
+                }
+            },
+            "Save": {
+                "Label": "Save Changes"
+            }
         }
     },
     "SignOut": {

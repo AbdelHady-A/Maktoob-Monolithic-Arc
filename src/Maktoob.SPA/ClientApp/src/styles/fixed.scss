@@ -8,13 +8,11 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-display: swap;
 }
-
 // remove blue box on mobiles
 input,
 textarea,
@@ -88,7 +86,18 @@ div {
 }
 
 // ---------------- fix angular material issues ---------------
-
+.input {
+  div.mat-form-field-infix {
+    padding: 0.3em 0;
+    input.mat-input-element {
+      height: 17px;
+      vertical-align: top;
+    }
+  }
+}
+div.mat-form-field-wrapper {
+  padding-bottom: 1.15em;
+}
 // to delete mat card header text from mat card header
 .mat-card-header-without-text .mat-card-header-text {
   display: none;
@@ -115,25 +124,9 @@ div {
   font-size: 1.5rem;
 }
 
-.shadow-w {
-  border-radius: 0.5rem;
-  min-width: 355px;
-  background-attachment: local;
-  background-size: contain;
-  background-repeat: no-repeat;
-  min-height: 400px;
-  border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
-    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
-    rgba($color: #fff, $alpha: 0.09) 0px 0px 0px 1px inset;
-
-  @media (map-get($mat-grid-breakpoints, xs)) {
-    box-shadow: none;
-    border-radius: none;
-    position: fixed;
-    top: 56px;
-    right: 0;
-    left: 0;
-    bottom: 0;
+.dir-text {
+  text-align: left;
+  [dir="rtl"] & {
+    text-align: right !important;
   }
 }

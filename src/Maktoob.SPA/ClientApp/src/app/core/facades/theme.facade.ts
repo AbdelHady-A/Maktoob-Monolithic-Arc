@@ -19,12 +19,9 @@ export class ThemeFacade implements IThemeFacade {
   private store = new BehaviorSubject<State>(this.state);
   public ViewModel$ = this.store.asObservable().pipe(distinctUntilKeyChanged('ActiveTheme'));
 
-  private renderer: Renderer2;
   constructor(
-    private rendererFactory: RendererFactory2,
     private storageService: IStorageService
   ) {
-    this.renderer = this.rendererFactory.createRenderer(null, null);
     // initialize active language with the previously stored language
     let theme = this.storageService.GetItem<ThemeType>('theme');
     if (theme) {
@@ -33,21 +30,11 @@ export class ThemeFacade implements IThemeFacade {
       theme = this.state.ActiveTheme;
       this.storageService.SetItem('theme', theme);
     }
+    this.SetTheme(theme);
   }
 
   SetTheme(theme: ThemeType): void {
-    const classList = document?.body.classList;
-
-    if (classList.contains(theme + '-theme')) {
-      return
-    }
-    classList.forEach(c => {
-      if (c.endsWith('-theme')) {
-        this.renderer.removeClass(document?.body, c);
-      }
-    });
-
-    this.renderer.addClass(document?.body, theme + '-theme');
+    this.switchTheme(theme);
     this.updateState({ ...this.state, ActiveTheme: theme });
   }
 
@@ -56,4 +43,38 @@ export class ThemeFacade implements IThemeFacade {
     this.storageService.SetItem('theme', state.ActiveTheme);
     this.store.next(this.state = state);
   }
+
+  private findStyle(theme: string) {
+    const links = document.getElementsByTagName('link');
+    for (const key in links) {
+      if (links.hasOwnProperty(key)) {
+        if (
+          links[key].rel.indexOf('stylesheet') !== -1 &&
+          links[key].title === theme
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private switchTheme(theme: ThemeType) {
+    if (theme && this.findStyle(theme)) {
+      const links = document.getElementsByTagName('link');
+      for (const key in links) {
+        if (links.hasOwnProperty(key)) {
+          const link = links[key];
+          if (link.rel.indexOf('stylesheet') !== -1 && link.title) {
+            if (link.title === theme) {
+              link.disabled = false;
+            } else {
+              link.disabled = true;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }

@@ -5,10 +5,19 @@
     "Settings": {
         "Label": "الإعدادات والخصوصية",
         "Language": {
-            "Label": "اللغة"
+            "Label": "اللغة",
+            "DisplayLanguage": {
+                "Label": "لغة العرض للأزرار والعناوين والنصوص الأخرى لهذا الحساب",
+                "FormField": {
+                    "Label": "لغة العرض"
+                }
+            },
+            "Save": {
+                "Label": "حفظ التغيرات"
+            }
         }
     },
-    "SignOut":{
+    "SignOut": {
         "Label": "تسجيل الخروج"
     }
 }

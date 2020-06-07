@@ -12,8 +12,9 @@
         <div class="search-header-box-input d-flex flex-row flex-fill" [class.active]="Active"
             (click)="$event.stopPropagation()">
             <div class="flex-fill">
-                <input class="flex-fill fg-text" type="text" placeholder="{{ 'Nav.Search' | translate }}"
-                    gen-throttle-click (ThrottleClick)="_OpenSearch()" #SearchInput>
+
+                <input class="flex-fill fg-text font text-nm" type="text" placeholder="{{ 'Nav.Search' | translate }}"
+                gen-throttle-click (ThrottleClick)="_OpenSearch()" #SearchInput>
             </div>
             <div class="transparent px-2"></div>
         </div>
