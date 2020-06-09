@@ -11,5 +11,46 @@ $mat-grid-breakpoints: (
   sm: "max-width: 959px",
 );
 
+$mat-primary: (
+  50: #c1ffce,
+  100: #75ff91,
+  200: #3dff65,
+  300: #00f433,
+  400: #00d62c,
+  500: #00b726,
+  600: #009820,
+  700: #007a19,
+  800: #005b13,
+  900: #003d0d,
+  A100: #b7ffc6,
+  A200: #51ff75,
+  A400: #00ea31,
+  A700: #00d02b,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  ),
+);
+
+$primary: map-get($mat-primary, 500);
+// $secondary: $gray-600 !default;
+// $success: $green !default;
+// $info: $cyan !default;
+// $warning: $yellow !default;
+// $danger: $red !default;
+// $light: $gray-100 !default;
+// $dark: $gray-800 !default;
 
 $font-family: "Segoe UI Historic", "Segoe UI", Helvetica, Arial, sans-serif;

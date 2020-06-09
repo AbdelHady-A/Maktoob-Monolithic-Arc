@@ -4,11 +4,19 @@
             <router-outlet></router-outlet>
             <div class="row mt-3 mx-1">
                 <div class="">
-                    <mat-select [value]="vm.ActiveLang.key" class="custom-mat-select" (valueChange)="ChangeLang($event)">
+                    <!-- <mat-select [value]="vm.ActiveLang.key" class="custom-mat-select"
+                        (valueChange)="ChangeLang($event)">
                         <mat-option *ngFor="let lang of vm.AvailableLangs" [value]="lang.key">
                             {{ lang.name }}
                         </mat-option>
-                    </mat-select>
+                    </mat-select> -->
+                    <select [value]="vm.ActiveLang.key" class="select fg-text"
+                        (change)="ChangeLang($event.target.value)">
+                        <option *ngFor="let lang of vm.AvailableLangs" class="bg-app-bar" [value]="lang.key"
+                            [selected]="vm.ActiveLang.key === lang.key">
+                            {{ lang.name }}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>

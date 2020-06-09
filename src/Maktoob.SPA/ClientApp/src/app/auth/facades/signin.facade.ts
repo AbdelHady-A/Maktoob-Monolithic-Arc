@@ -6,10 +6,7 @@ import { IAuthService } from 'src/app/core/services/auth.service';
 import { SignInUserCommand } from 'src/app/core/commands/user.commnd';
 import { GError } from 'src/app/core/results/error';
 import { finalize, map } from 'rxjs/operators';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { Router } from '@angular/router';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { LoaderComponent } from '../loader.component';
 
 
 @Injectable()
@@ -40,7 +37,6 @@ export class SignInFacade implements ISignInFacade {
   constructor(
     private authService: IAuthService,
     private formBuilder: FormBuilder,
-    private overly: Overlay,
     private router: Router
   ) { }
 
@@ -63,31 +59,29 @@ export class SignInFacade implements ISignInFacade {
 
   // 
   public async SignInAsync(): Promise<void> {
-    this.showLoader();
     try {
       await this.authService.SignInAsync(this.command);
       this.subscriptions.forEach(sub => {
         sub.unsubscribe();
       });
       this.signInForm.reset();
-      this.hideLoader();
       this.router.navigate(['']);
     } catch (errors) {
-      const credentialsErrors : GError[] = errors?.filter((e: GError) =>
+      const credentialsErrors: GError[] = errors?.filter((e: GError) =>
         e.Code.endsWith('Credentials')
       );
-      let passwordErrors : GError[] = errors?.filter((e: GError) =>
+      let passwordErrors: GError[] = errors?.filter((e: GError) =>
         e.Code.endsWith('Password')
       );
 
       if (credentialsErrors?.length > 0) {
-        this.Credentials.setErrors({ serverErrors: credentialsErrors });
-        passwordErrors = credentialsErrors.concat(passwordErrors);
+        this.updateState({ ...this.state, Errors: credentialsErrors });
+        // this.Credentials.setErrors({ serverErrors: credentialsErrors });
+        // passwordErrors = credentialsErrors.concat(passwordErrors);
       }
       if (passwordErrors?.length > 0) {
         this.password.setErrors({ serverErrors: passwordErrors })
       }
-      this.hideLoader();
     }
   }
 
@@ -107,7 +101,9 @@ export class SignInFacade implements ISignInFacade {
     sub = this.Credentials.statusChanges.subscribe(status => {
       if (status == 'INVALID') {
         const errors = this.extractErrors(this.Credentials);
-        this.updateState({ ...this.state, CredentialsErrors: errors })
+        this.updateState({ ...this.state, CredentialsErrors: errors, Errors: [] })
+      } else {
+        this.updateState({ ...this.state, CredentialsErrors: [], Errors: [] })
       }
     })
     this.subscriptions = [...this.subscriptions, sub];
@@ -121,7 +117,9 @@ export class SignInFacade implements ISignInFacade {
     sub = this.password.statusChanges.subscribe(status => {
       if (status == 'INVALID') {
         const errors = this.extractErrors(this.password);
-        this.updateState({ ...this.state, PasswordErrors: errors })
+        this.updateState({ ...this.state, PasswordErrors: errors, Errors: [] })
+      } else {
+        this.updateState({ ...this.state, PasswordErrors: [], Errors: [] })
       }
     })
     this.subscriptions = [...this.subscriptions, sub];
@@ -146,19 +144,5 @@ export class SignInFacade implements ISignInFacade {
     this.subscriptions = [...this.subscriptions, sub];
 
     return this.signInForm;
-  }
-
-  private hideLoader() {
-    this.overlayRef?.detach();
-  }
-
-  private overlayRef: OverlayRef;
-  private showLoader() {
-    this.overlayRef = this.overly.create({
-      positionStrategy: this.overly.position().global().centerHorizontally().centerVertically(),
-      hasBackdrop: true
-    })
-    const componentRef = this.overlayRef.attach(new ComponentPortal(LoaderComponent))
-    componentRef.instance.TranslatePath = 'SignIn.Loader';
   }
 }

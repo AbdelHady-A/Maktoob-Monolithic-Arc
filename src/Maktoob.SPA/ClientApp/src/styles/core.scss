@@ -12,38 +12,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$mat-primary: (
-  50: #c1ffce,
-  100: #75ff91,
-  200: #3dff65,
-  300: #00f433,
-  400: #00d62c,
-  500: #00b726,
-  600: #009820,
-  700: #007a19,
-  800: #005b13,
-  900: #003d0d,
-  A100: #b7ffc6,
-  A200: #51ff75,
-  A400: #00ea31,
-  A700: #00d02b,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #ffffff,
-  ),
-);
+
 $Maktoob-primary: mat-palette($mat-primary);
 $Maktoob-accent: mat-palette($mat-pink, A200, A100, A400);
 // The warn palette is optional (defaults to red).

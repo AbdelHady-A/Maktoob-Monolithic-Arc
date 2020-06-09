@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ISignUpFacade } from '../facades/signup.facade';
 
@@ -10,6 +10,8 @@ import { ISignUpFacade } from '../facades/signup.facade';
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   hidePassword: boolean = true;
+  @ViewChild('FShadow') FShadow: ElementRef;
+  @ViewChild('ProgressBar') ProgressBar: ElementRef;
 
   constructor(private signUpFacade: ISignUpFacade) { }
 
@@ -20,7 +22,11 @@ export class SignUpComponent implements OnInit {
   }
 
   public async SignUpAsync(): Promise<void> {
-      await this.signUpFacade.SignUpAsync();
+    this.FShadow?.nativeElement?.classList.add('active');
+    this.ProgressBar?.nativeElement?.classList.add('active');
+    await this.signUpFacade.SignUpAsync();
+    this.ProgressBar?.nativeElement?.classList.remove('active');
+    this.FShadow?.nativeElement?.classList.remove('active');
   }
-  
+
 }

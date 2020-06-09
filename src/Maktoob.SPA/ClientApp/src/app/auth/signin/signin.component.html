@@ -1,61 +1,97 @@
-<form [formGroup]="signInForm" *ngIf="(vm$ | async) as vm">
-    <mat-card class="shadow-lg">
-        <mat-card-header class="text-center mat-card-header-without-text">
-            <div class="m-auto">
-                <img src="assets/logo.svg" alt="logo" class="logo">
-            </div>
-        </mat-card-header>
-        <mat-card-content>
+<div class="f-shadow" #FShadow></div>
+
+<div class="shadow card pb-2 rounded">
+    <div class="progress z5" #ProgressBar>
+        <div class="indeterminate"></div>
+    </div>
+
+    <div class="text-center card-header py-2">
+        <div class="m-auto">
+            <img src="assets/logo.svg" alt="logo" class="logo">
+        </div>
+    </div>
+
+    <div class="card-content dir-text">
+        <form [formGroup]="signInForm" *ngIf="(vm$ | async) as vm">
+
             <div class="row text-center">
                 <div class="col-10 m-auto">
-                    <div class="row mb-2">
-                        <mat-form-field appearance="outline" class="col-12">
-                            <mat-label>{{ 'SignIn.Credentials.Label' | translate }}</mat-label>
-                            <input matInput formControlName="Credentials" name="UserName" id="UserName">
-                            <mat-error *ngFor="let error of vm.CredentialsErrors">
-                                {{ error?.Description || ( 'SignIn.Credentials.Errors.' + error?.Code | translate) }}
-                            </mat-error>
-                        </mat-form-field>
+                    <div class="row">
+                        <div class="alert alert-danger dir-text col-12" role="alert"
+                            *ngFor="let error of vm.Errors">
+                            {{ error?.Description || ( 'SignIn.Credentials.Errors.' + error?.Code | translate) }}
+                        </div>
                     </div>
-                </div>
-                <div class="col-10 m-auto">
-                    <div class="row mb-2">
-                        <mat-form-field appearance="outline" class="col-12">
-                            <mat-label>
-                                {{'SignIn.Password.Label' | translate}}
-                            </mat-label>
-                            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="Password">
-                            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
-                                [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
-                                <mat-icon>
-                                    {{hidePassword ? 'visibility_off' : 'visibility'}}
-                                </mat-icon>
-                            </button>
-                            <mat-error *ngFor="let error of vm.PasswordErrors">
-                                {{ error?.Description || ( 'SignIn.Password.Errors.' + error?.Code | translate) }}
-                            </mat-error>
-                        </mat-form-field>
+                    <div class="row my-4">
+                        <div class="col-12">
+                            <div class="form-row dir-text">
+                                <input type="email" formControlName="Credentials" class="form-control" id="Credentials"
+                                    [ngClass]="{ 'is-invalid': signInForm.get('Credentials').errors && signInForm.get('Credentials').touched}"
+                                    placeholder="{{ 'SignIn.Credentials.Label' | translate }}">
+
+                                <small
+                                    *ngIf="signInForm.get('Credentials').valid || !signInForm.get('Credentials').touched"
+                                    class="fg-text form-text text-muted">{{ 'SignIn.Password.Hint' | translate}}</small>
+
+                                <div class="invalid-feedback" *ngFor="let error of vm.CredentialsErrors?.slice(0,1)">
+                                    {{ error?.Description || ( 'SignIn.Credentials.Errors.' + error?.Code | translate) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-12 dir-text">
+                            <div class="form-row">
+                                <input id="Password" class="form-control" [type]="hidePassword ? 'password' : 'text'"
+                                    [ngClass]="{ 'is-invalid': signInForm.get('Password').errors && signInForm.get('Password').touched}"
+                                    formControlName="Password" placeholder="{{'SignIn.Password.Label' | translate}}">
+                                <i class="field-icon d-flex" (click)="hidePassword = !hidePassword"
+                                    [attr.aria-label]="'hide password'" [attr.aria-pressed]="hidePassword">
+                                    <svg class="m-auto" *ngIf="hidePassword" xmlns="http://www.w3.org/2000/svg"
+                                        height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0zm0 0h24v24H0zm0 0h24v24H0zm0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" />
+                                    </svg>
+                                    <svg class="m-auto" *ngIf="!hidePassword" xmlns="http://www.w3.org/2000/svg"
+                                        height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                    </svg>
+                                </i>
+
+                                <small *ngIf="signInForm.get('Password').valid || !signInForm.get('Password').touched"
+                                    class="fg-text form-text text-muted">{{ 'SignIn.Password.Hint' | translate}}</small>
+
+                                <div class="invalid-feedback" *ngFor="let error of vm.PasswordErrors?.slice(0,1)">
+                                    {{ error?.Description || ( 'SignIn.Password.Errors.' + error?.Code | translate) }}
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </mat-card-content>
-        <mat-card-actions>
-            <div class="row text-center">
-                <div class="col-10 m-auto">
-                    <div class="row d-flex justify-content-between">
-                        <a mat-button [routerLink]="['/auth/signup']" class="mr-auto" color="primary"
-                            class="align-self-start">
-                            {{ 'SignIn.SignUpLink' | translate }}
-                        </a>
+        </form>
+    </div>
 
-                        <button mat-flat-button color="primary" class="align-self-end" gen-throttle-click
-                            (ThrottleClick)="SignInAsync()" [disabled]="signInForm.invalid">
-                            {{ 'SignIn.SignIn' | translate}}
-                        </button>
-                    </div>
+    <div class="card-actions">
+        <div class="row text-center">
+            <div class="col-10 m-auto">
+                <div class="row d-flex justify-content-between">
+                    <button [routerLink]="['/auth/signup']" class="align-self-start btn btn-outline-primary ">
+                        {{ 'SignIn.SignUpLink' | translate }}
+                    </button>
 
+                    <button class="btn btn-primary align-self-end " gen-throttle-click [disabled]="!signInForm.valid"
+                        (ThrottleClick)="SignInAsync()">
+                        {{ 'SignIn.SignIn' | translate}}
+                    </button>
                 </div>
+
             </div>
-        </mat-card-actions>
-    </mat-card>
-</form>
+        </div>
+    </div>
+</div>

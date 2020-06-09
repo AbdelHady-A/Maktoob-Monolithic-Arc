@@ -1,8 +1,12 @@
 @import "../app/shared/component/styles.scss";
-@import "utils/icon.scss";
 @import "theming.scss";
+
+@import "utils/icon.scss";
+@import "utils/progress.scss";
 @mixin local-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
   @include theming($theme);
   @include gen-theme($theme, $grid-breakpoints, $mat-grid-breakpoints);
+
   @include icon-theme($theme);
+  @include progress-theme($theme);
 }

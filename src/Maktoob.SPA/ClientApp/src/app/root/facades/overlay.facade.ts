@@ -105,7 +105,8 @@ export class OverlayFacade implements IOverlayFacade, OnDestroy {
           const positionStrategy = this.createPositionStrategy(overlayType);
           this.overlayRef = this.overlay.create({
             hasBackdrop: false,
-            positionStrategy: positionStrategy
+            positionStrategy: positionStrategy,
+            direction: document?.body?.dir as 'rtl' | 'ltr'
           })
         }
         if (!this.overlayRef?.hasAttached()) {

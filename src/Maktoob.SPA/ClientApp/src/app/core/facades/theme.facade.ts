@@ -3,6 +3,7 @@ import { IStorageService } from '../services/storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { State, ThemeType } from '../states/theme.state';
+import { ILinkeService } from '../services/link.service';
 
 @Injectable()
 export abstract class IThemeFacade {
@@ -20,8 +21,13 @@ export class ThemeFacade implements IThemeFacade {
   public ViewModel$ = this.store.asObservable().pipe(distinctUntilKeyChanged('ActiveTheme'));
 
   constructor(
-    private storageService: IStorageService
+    private storageService: IStorageService,
+    private linkService: ILinkeService
   ) {
+
+    this.linkService.AddTag({ id: 'light', rel: 'stylesheet', href: 'light.css', title: 'light', disabled: 'true' });
+    this.linkService.AddTag({ id: 'dark', rel: 'stylesheet', href: 'dark.css', title: 'dark', disabled: 'true' });
+    
     // initialize active language with the previously stored language
     let theme = this.storageService.GetItem<ThemeType>('theme');
     if (theme) {
@@ -45,31 +51,36 @@ export class ThemeFacade implements IThemeFacade {
   }
 
   private findStyle(theme: string) {
-    const links = document.getElementsByTagName('link');
-    for (const key in links) {
-      if (links.hasOwnProperty(key)) {
-        if (
-          links[key].rel.indexOf('stylesheet') !== -1 &&
-          links[key].title === theme
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
+    if (typeof window !== 'undefined') {
 
-  private switchTheme(theme: ThemeType) {
-    if (theme && this.findStyle(theme)) {
       const links = document.getElementsByTagName('link');
       for (const key in links) {
         if (links.hasOwnProperty(key)) {
-          const link = links[key];
-          if (link.rel.indexOf('stylesheet') !== -1 && link.title) {
-            if (link.title === theme) {
-              link.disabled = false;
-            } else {
-              link.disabled = true;
+          if (
+            links[key].rel.indexOf('stylesheet') !== -1 &&
+            links[key].title === theme
+          ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+  }
+
+  private switchTheme(theme: ThemeType) {
+    if (typeof window !== 'undefined') {
+      if (theme && this.findStyle(theme)) {
+        const links = document?.getElementsByTagName('link');
+        for (const key in links) {
+          if (links.hasOwnProperty(key)) {
+            const link = links[key];
+            if (link.rel.indexOf('stylesheet') !== -1 && link.title) {
+              if (link.title === theme) {
+                link.disabled = false;
+              } else {
+                link.disabled = true;
+              }
             }
           }
         }

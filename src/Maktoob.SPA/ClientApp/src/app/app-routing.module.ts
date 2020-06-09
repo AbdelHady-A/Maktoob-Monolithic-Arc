@@ -1,16 +1,29 @@
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { UnauthGuard } from './core/guards/unauth.guard';
+import { SignInComponent } from './auth/signin/signin.component';
+import { AuthComponent } from './auth/auth.component';
+import { SignUpComponent } from './auth/signup/signup.component';
 
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () =>
-      import('./auth/auth.module').then(
-        (m) => m.AuthModule
-      ),
-    canLoad: [UnauthGuard],
+    component: AuthComponent,
+    // loadChildren: () =>
+    //   import('./auth/auth.module').then(
+    //     (m) => m.AuthModule
+    //   ),
+    // canLoad: [UnauthGuard],
+    children: [
+      { path: 'signup', component: SignUpComponent },
+      { path: 'signin', component: SignInComponent },
+      {
+        path: '',
+        redirectTo: 'signin',
+        pathMatch: 'prefix'
+      }
+    ],
     canActivateChild: [UnauthGuard],
   },
   {
