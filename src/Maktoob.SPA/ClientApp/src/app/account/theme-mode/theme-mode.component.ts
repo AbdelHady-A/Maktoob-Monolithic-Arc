@@ -9,24 +9,17 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 export class ThemeModeComponent implements OnInit {
 
   @Input()
-  Theme: string;
-
-  Checked: boolean = false;
+  On: boolean = false;
 
   @Output()
-  Change = new EventEmitter<string>();
+  Change = new EventEmitter<boolean>();
 
   constructor() { }
 
   ngOnInit(): void {
-    this.Checked = this.Theme === 'dark' ? true : false;
   }
   ChangeTheme() {
-    this.Checked = !this.Checked;
-    if (this.Checked) {
-      this.Change.emit('dark')
-    } else {
-      this.Change.emit('light');
-    }
+    this.On = !this.On;
+    this.Change.emit(this.On);
   }
 }

@@ -1,5 +1,6 @@
 export type ThemeType = 'light' | 'dark';
 
-export interface State {
+export interface ThemeState {
     ActiveTheme?: ThemeType;
+    DarkMode?: boolean;
 }

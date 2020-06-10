@@ -1,12 +1,28 @@
 <div>
-    <app-theme-mode *ngIf="(theme$ | async) as theme" [Theme]="theme.ActiveTheme" (Change)="ChangeTheme($event)">
+    <!-- theme mode button -->
+    <app-theme-mode *ngIf="(theme$ | async) as theme" [On]="theme.DarkMode" (Change)="DarkMode($event)">
         {{ 'DarkMode.Label' | translate }}
     </app-theme-mode>
-    <gen-nav-button [FirstIcon]="'settings'" [SecondIcon]="'keyboard_arrow_right'" (click)="Navigate('settings')">
-        {{ 'Settings.Label' | translate }}
-    </gen-nav-button>
-
-    <gen-nav-button [FirstIcon]="'logout'" (click)="SignOutAsync()">
-        {{ 'SignOut.Label' | translate }}
-    </gen-nav-button>
+    <!-- settings and privacy button -->
+    <div class="mx-auto cursor-pointer hover d-flex p-2 rounded-lg" (click)="Navigate('settings')">
+        <div class="icon-deact d-flex rounded-circle ltr-rotate-180">
+            <mat-icon class="m-auto">settings</mat-icon>
+        </div>
+        <div class="text-nm my-auto mx-2">
+            {{ 'Settings.Label' | translate }}
+        </div>
+        <span class="spacer"></span>
+        <div class="icon d-flex rounded-circle rtl-rotate-180">
+            <mat-icon class="m-auto scale-x1-5">keyboard_arrow_right</mat-icon>
+        </div>
+    </div>
+    <!-- signout button -->
+    <div class="mx-auto cursor-pointer hover d-flex p-2 rounded-lg" (click)="SignOutAsync()">
+        <div class="icon-deact d-flex rounded-circle ltr-rotate-180">
+            <mat-icon class="m-auto">logout</mat-icon>
+        </div>
+        <div class="text-nm my-auto mx-2">
+            {{ 'SignOut.Label' | translate }}
+        </div>
+    </div>
 </div>

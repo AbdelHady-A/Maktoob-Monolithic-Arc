@@ -19,6 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ILangFacade, LangFacade } from '../core/facades/lang.facade';
 import { FacadeProviders } from './facades/facades';
 import { ThrottleClickModule } from '../shared/directive/throttle-click.directive';
+import { ThemeFacade, IThemeFacade } from '../core/facades/theme.facade';
 
 
 export function TranslateHttpLoaderFactory(http: HttpClient) {

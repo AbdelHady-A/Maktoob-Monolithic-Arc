@@ -157,3 +157,24 @@ div.mat-form-field-wrapper {
   position: relative;
   z-index: 2;
 }
+
+.nav-overlay-box {
+  border-radius: 0.5rem;
+  width: 355px;
+  background-attachment: local;
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 400px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba($color: #fff, $alpha: 0.09) 0px 0px 0px 1px inset;
+
+  @media (map-get($mat-grid-breakpoints, xs)) {
+    box-shadow: none;
+    border-radius: none;
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    width: 100% !important;
+  }
+}

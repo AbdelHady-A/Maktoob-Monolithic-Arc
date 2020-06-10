@@ -1,4 +1,3 @@
-@import "nav-button/nav-button.component.scss";
 @import "slide-toggle/slide-toggle.component.scss";
 @mixin gen-theme($theme, $grid-breakpoints, $mat-grid-breakpoints) {
   @include gen-slide-toggle-theme(

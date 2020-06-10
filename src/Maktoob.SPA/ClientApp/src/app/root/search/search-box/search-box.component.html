@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="rounded-pill d-flex search-header-box mx-2 flex-fill bg-disabled-button" gen-throttle-click
-        (ThrottleClick)="_OpenSearch()" (click)="$event.stopPropagation()">
+        [ThrottleTime]="2000" (ThrottleClick)="_OpenSearch()" (click)="$event.stopPropagation()">
         <div class="icon rounded-circle">
             <mat-icon class="m-auto">search</mat-icon>
         </div>
@@ -14,7 +14,7 @@
             <div class="flex-fill">
 
                 <input class="flex-fill fg-text font text-nm" type="text" placeholder="{{ 'Nav.Search' | translate }}"
-                gen-throttle-click (ThrottleClick)="_OpenSearch()" #SearchInput>
+                    gen-throttle-click (ThrottleClick)="_OpenSearch()" #SearchInput>
             </div>
             <div class="transparent px-2"></div>
         </div>

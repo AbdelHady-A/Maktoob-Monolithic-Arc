@@ -1,6 +1,18 @@
+@import "variables";
 .progress {
   visibility: hidden;
   &.active {
     visibility: visible;
   }
+}
+
+.line-text {
+  width: 100%;
+  text-align: center;
+  line-height: 0.1em;
+  text-transform: uppercase;
+}
+
+.line-text span {
+  padding: 0 10px;
 }

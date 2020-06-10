@@ -7,13 +7,29 @@ export abstract class ILinkeService {
 }
 @Injectable()
 export class LinkService implements ILinkeService {
-
   constructor(
     private rendererFactory: RendererFactory2,
-    @Inject(DOCUMENT) private document
+    @Inject(DOCUMENT) private document: Document
   ) { }
   RemoveTag(id: string): void {
-    throw new Error("Method not implemented.");
+    try {
+      const renderer = this.rendererFactory.createRenderer(this.document, {
+        id: '-1',
+        encapsulation: ViewEncapsulation.None,
+        styles: [],
+        data: {}
+      });
+
+      const head = this.document.head;
+
+      if (head === null) {
+        throw new Error('<head> not found within DOCUMENT.');
+      }
+      const tag = this.document.getElementById(id);
+      renderer.removeChild(head, tag);
+    } catch (e) {
+      console.error('Error within linkService : ', e);
+    }
   }
 
   AddTag(tag: LinkDefinition): void {

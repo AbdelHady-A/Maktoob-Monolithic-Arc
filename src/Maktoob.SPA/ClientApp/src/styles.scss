@@ -7,8 +7,29 @@
 @import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/buttons";
-@import "styles/fixed.scss";
+@import "styles/fixed";
+@import "styles/core";
+
+// Create the theme object (a Sass map containing all of the palettes).
+$light-theme: mat-light-theme($Maktoob-primary, $Maktoob-accent, $Maktoob-warn);
+@include global-theme($light-theme, $grid-breakpoints, $mat-grid-breakpoints);
+
+.dark-mode {
+  // Create the theme object (a Sass map containing all of the palettes).
+  $dark-theme: mat-dark-theme($Maktoob-primary, $Maktoob-accent, $Maktoob-warn);
+  @include global-theme($dark-theme, $grid-breakpoints, $mat-grid-breakpoints);
+}
 
 .font {
   font-family: $font-family;
 }
+
+undefined {
+  flex: 1;
+}
+
+// .router {
+//   & + * {
+//     flex: 1 0 100%;
+//   }
+// }

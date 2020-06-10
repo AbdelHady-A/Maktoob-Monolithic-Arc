@@ -15,7 +15,9 @@
     &-disabled-button {
       background-color: mat-color($background, disabled-button);
     }
-    
+    &-body{
+      background-color: mat-color($background, background);
+    }
   }
 
   .fg {

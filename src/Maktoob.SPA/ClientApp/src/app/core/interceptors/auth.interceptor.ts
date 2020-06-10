@@ -16,7 +16,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: IAuthService,
-    @Inject('API_BASE_URL') private API_BASE_URL
+    @Inject('API_BASE_URL') private API_BASE_URL: string
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {

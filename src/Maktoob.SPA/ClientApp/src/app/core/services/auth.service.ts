@@ -73,7 +73,7 @@ export class AuthService implements IAuthService {
     if (this.AccessToken) {
       if (this.IsTokenExpired()) {
         try {
-          await this.RefreshToken().toPromise();
+          // await this.RefreshToken().toPromise();
           return true;
         } catch{
           return false

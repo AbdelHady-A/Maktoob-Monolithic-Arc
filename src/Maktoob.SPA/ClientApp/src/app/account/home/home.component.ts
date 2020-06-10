@@ -21,8 +21,8 @@ export class HomeComponent implements OnInit {
   theme$ = this.themeFacade.ViewModel$;
 
   ngOnInit(): void { }
-  ChangeTheme(theme: ThemeType) {
-    this.themeFacade.SetTheme(theme);
+  DarkMode(on: boolean) {
+    this.themeFacade.DarkMode(on);
   }
   Navigate(path: string) {
     this.router.navigate([{ outlets: { controlRouter: ['account', path] } }], { skipLocationChange: true });

@@ -15,7 +15,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ILangFacade, LangFacade } from 'src/app/core/facades/lang.facade';
 import { SettingsComponent } from './settings/settings.component';
 import { HomeComponent } from './home/home.component';
-import { NavButtonModule } from 'src/app/shared/component/nav-button/nav-button.component';
 import { LanguageComponent } from './language/language.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -43,7 +42,6 @@ export function TranslateHttpLoaderFactory(http: HttpClient) {
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
-    NavButtonModule,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,

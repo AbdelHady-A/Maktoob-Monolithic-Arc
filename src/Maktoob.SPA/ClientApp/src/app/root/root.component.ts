@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IAuthService } from '../core/services/auth.service';
 import { ILangFacade } from '../core/facades/lang.facade';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { IThemeFacade } from '../core/facades/theme.facade';
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss']
 })
-export class RootComponent implements OnInit {
+export class RootComponent implements OnInit, OnDestroy {
 
   constructor(
     private langFacade: ILangFacade,
@@ -19,8 +19,13 @@ export class RootComponent implements OnInit {
     private themeFacade: IThemeFacade
   ) {
   }
-
+  ngOnDestroy(): void {
+    if (typeof window !== 'undefined') {
+      document?.body?.classList.remove('dark-mode');
+    }
+  }
   ngOnInit(): void {
+    this.themeFacade.ngOnInit();
     this.linkService.AddTag({ id: 'icons', rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp' });
   }
 }

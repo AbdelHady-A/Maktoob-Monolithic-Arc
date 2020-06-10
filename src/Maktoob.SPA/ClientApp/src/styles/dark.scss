@@ -1,5 +1,1 @@
 @import "core.scss";
-// Create the theme object (a Sass map containing all of the palettes).
-$dark-theme: mat-dark-theme($Maktoob-primary, $Maktoob-accent, $Maktoob-warn);
-
-@include global-theme($dark-theme, $grid-breakpoints, $mat-grid-breakpoints);

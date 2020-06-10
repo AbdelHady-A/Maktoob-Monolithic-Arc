@@ -1,23 +1,25 @@
-import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
+import { Injectable, RendererFactory2, Renderer2, OnDestroy, OnInit } from '@angular/core';
 import { IStorageService } from '../services/storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
-import { State, ThemeType } from '../states/theme.state';
+import { ThemeState, ThemeType } from '../states/theme.state';
 import { ILinkeService } from '../services/link.service';
 
 @Injectable()
-export abstract class IThemeFacade {
+export abstract class IThemeFacade implements OnInit {
+  abstract ngOnInit(): void;
   abstract SetTheme(theme: ThemeType): void;
-  abstract ViewModel$: Observable<State>;
+  abstract DarkMode(on: boolean): void;
+  abstract ViewModel$: Observable<ThemeState>;
 }
 
 
 @Injectable()
 export class ThemeFacade implements IThemeFacade {
-  private state: State = {
+  private state: ThemeState = {
     ActiveTheme: 'light'
   };
-  private store = new BehaviorSubject<State>(this.state);
+  private store = new BehaviorSubject<ThemeState>(this.state);
   public ViewModel$ = this.store.asObservable().pipe(distinctUntilKeyChanged('ActiveTheme'));
 
   constructor(
@@ -25,18 +27,35 @@ export class ThemeFacade implements IThemeFacade {
     private linkService: ILinkeService
   ) {
 
-    this.linkService.AddTag({ id: 'light', rel: 'stylesheet', href: 'light.css', title: 'light', disabled: 'true' });
-    this.linkService.AddTag({ id: 'dark', rel: 'stylesheet', href: 'dark.css', title: 'dark', disabled: 'true' });
-    
+  }
+  ngOnInit(): void {
     // initialize active language with the previously stored language
-    let theme = this.storageService.GetItem<ThemeType>('theme');
-    if (theme) {
-      this.SetTheme(theme);
-    } else {
-      theme = this.state.ActiveTheme;
-      this.storageService.SetItem('theme', theme);
+    let state = this.storageService.GetItem<ThemeState>('theme');
+    if (!state) {
+      state = {} as ThemeState;
     }
-    this.SetTheme(theme);
+    if (state.DarkMode) {
+      this.DarkMode(true);
+    }
+    if (state.ActiveTheme) {
+      this.SetTheme(state.ActiveTheme);
+    } else {
+      state.ActiveTheme = this.state.ActiveTheme;
+      this.storageService.SetItem('theme', state);
+    }
+    this.SetTheme(state.ActiveTheme);
+  }
+
+  DarkMode(on: boolean): void {
+    if (typeof window !== 'undefined') {
+      const classList = document?.body.classList;
+      if (on) {
+        classList.add('dark-mode');
+      } else {
+        classList.remove('dark-mode');
+      }
+    }
+    this.updateState({ ...this.state, DarkMode: on });
   }
 
   SetTheme(theme: ThemeType): void {
@@ -45,8 +64,8 @@ export class ThemeFacade implements IThemeFacade {
   }
 
 
-  private updateState(state: State) {
-    this.storageService.SetItem('theme', state.ActiveTheme);
+  private updateState(state: ThemeState) {
+    this.storageService.SetItem('theme', state);
     this.store.next(this.state = state);
   }
 
