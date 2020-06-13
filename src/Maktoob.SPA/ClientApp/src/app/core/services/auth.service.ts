@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { GResult } from '../results/result';
 import { SignInUserCommand, SignUpUserCommand } from '../commands/user.commnd';
 import { TokenModel, JwtClaimNames } from '../models/token.model';
-import { tap, map, share } from 'rxjs/operators';
+import { tap, map, share, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TokenState } from '../states/auth.state';
@@ -73,7 +73,9 @@ export class AuthService implements IAuthService {
     if (this.AccessToken) {
       if (this.IsTokenExpired()) {
         try {
-          // await this.RefreshToken().toPromise();
+          setTimeout(async () => {
+            await this.RefreshToken().toPromise();
+          }, 0)
           return true;
         } catch{
           return false
@@ -119,6 +121,13 @@ export class AuthService implements IAuthService {
             this.UpdateToken(result.Outcome);
           }),
           share(),
+          catchError(err => {
+            if (err?.Code === 'Unauthorized') {
+              console.log('Unauthorized');
+            }
+            console.log(err);
+            return err;
+          }),
           map(_ => { })
         );
     }

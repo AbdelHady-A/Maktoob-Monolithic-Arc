@@ -1,9 +1,10 @@
-import { Injectable, RendererFactory2, Renderer2, OnDestroy, OnInit } from '@angular/core';
+import { Injectable, RendererFactory2, Renderer2, OnDestroy, OnInit, Inject } from '@angular/core';
 import { IStorageService } from '../services/storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilKeyChanged } from 'rxjs/operators';
 import { ThemeState, ThemeType } from '../states/theme.state';
 import { ILinkeService } from '../services/link.service';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export abstract class IThemeFacade implements OnInit {
@@ -24,11 +25,13 @@ export class ThemeFacade implements IThemeFacade {
 
   constructor(
     private storageService: IStorageService,
-    private linkService: ILinkeService
+    @Inject(DOCUMENT) private document: Document
   ) {
 
   }
   ngOnInit(): void {
+    this.document.body.classList.remove('dark-background');
+    this.document.body.classList.remove('light-background');
     // initialize active language with the previously stored language
     let state = this.storageService.GetItem<ThemeState>('theme');
     if (!state) {
@@ -47,13 +50,11 @@ export class ThemeFacade implements IThemeFacade {
   }
 
   DarkMode(on: boolean): void {
-    if (typeof window !== 'undefined') {
-      const classList = document?.body.classList;
-      if (on) {
-        classList.add('dark-mode');
-      } else {
-        classList.remove('dark-mode');
-      }
+    const classList = this.document?.body.classList;
+    if (on) {
+      classList.add('dark-mode');
+    } else {
+      classList.remove('dark-mode');
     }
     this.updateState({ ...this.state, DarkMode: on });
   }
@@ -70,17 +71,15 @@ export class ThemeFacade implements IThemeFacade {
   }
 
   private findStyle(theme: string) {
-    if (typeof window !== 'undefined') {
 
-      const links = document.getElementsByTagName('link');
-      for (const key in links) {
-        if (links.hasOwnProperty(key)) {
-          if (
-            links[key].rel.indexOf('stylesheet') !== -1 &&
-            links[key].title === theme
-          ) {
-            return true;
-          }
+    const links = this.document.getElementsByTagName('link');
+    for (const key in links) {
+      if (links.hasOwnProperty(key)) {
+        if (
+          links[key].rel.indexOf('stylesheet') !== -1 &&
+          links[key].title === theme
+        ) {
+          return true;
         }
       }
       return false;
@@ -88,18 +87,16 @@ export class ThemeFacade implements IThemeFacade {
   }
 
   private switchTheme(theme: ThemeType) {
-    if (typeof window !== 'undefined') {
-      if (theme && this.findStyle(theme)) {
-        const links = document?.getElementsByTagName('link');
-        for (const key in links) {
-          if (links.hasOwnProperty(key)) {
-            const link = links[key];
-            if (link.rel.indexOf('stylesheet') !== -1 && link.title) {
-              if (link.title === theme) {
-                link.disabled = false;
-              } else {
-                link.disabled = true;
-              }
+    if (theme && this.findStyle(theme)) {
+      const links = this.document?.getElementsByTagName('link');
+      for (const key in links) {
+        if (links.hasOwnProperty(key)) {
+          const link = links[key];
+          if (link.rel.indexOf('stylesheet') !== -1 && link.title) {
+            if (link.title === theme) {
+              link.disabled = false;
+            } else {
+              link.disabled = true;
             }
           }
         }

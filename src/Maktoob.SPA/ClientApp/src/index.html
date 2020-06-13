@@ -14,100 +14,26 @@
 
 <body class="mat-typography mat-app-background">
   <style>
-    .lds-ellipsis {
-      display: inline-block;
-      position: relative;
-      width: 80px;
-      height: 80px;
-      margin: auto
-    }
-
-    .lds-ellipsis div {
-      position: absolute;
-      top: 33px;
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: #00b726;
-      animation-timing-function: cubic-bezier(0, 1, 1, 0)
-    }
-
-    .lds-ellipsis div:nth-child(1) {
-      left: 8px;
-      animation: lds-ellipsis1 .6s infinite
-    }
-
-    .lds-ellipsis div:nth-child(2) {
-      left: 8px;
-      animation: lds-ellipsis2 .6s infinite
-    }
-
-    .lds-ellipsis div:nth-child(3) {
-      left: 32px;
-      animation: lds-ellipsis2 .6s infinite
-    }
-
-    .lds-ellipsis div:nth-child(4) {
-      left: 56px;
-      animation: lds-ellipsis3 .6s infinite
-    }
-
-    @keyframes lds-ellipsis1 {
-      0% {
-        transform: scale(0)
-      }
-
-      100% {
-        transform: scale(1)
-      }
-    }
-
-    @keyframes lds-ellipsis3 {
-      0% {
-        transform: scale(1)
-      }
-
-      100% {
-        transform: scale(0)
-      }
-    }
-
-    @keyframes lds-ellipsis2 {
-      0% {
-        transform: translate(0, 0)
-      }
-
-      100% {
-        transform: translate(24px, 0)
-      }
-    }
-
-    .in-the-middle {
-      text-align: center;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-flex-direction: column;
-      flex-direction: column;
-      min-height: 100vh;
-      position: relative
-    }
-
-    .in-the-middle::after,
-    .in-the-middle::before {
-      content: "";
-      display: block;
-      -webkit-box-flex: 1;
-      box-flex: 1;
-      -webkit-flex-grow: 1;
-      flex-grow: 1;
-      height: 24px
-    }
+    .lds-ellipsis{display:inline-block;position:relative;width:80px;height:80px;margin:auto}.lds-ellipsis div{position:absolute;top:33px;width:13px;height:13px;border-radius:50%;background:#00b726;animation-timing-function:cubic-bezier(0,1,1,0)}.lds-ellipsis div:nth-child(1){left:8px;animation:lds-ellipsis1 .6s infinite}.lds-ellipsis div:nth-child(2){left:8px;animation:lds-ellipsis2 .6s infinite}.lds-ellipsis div:nth-child(3){left:32px;animation:lds-ellipsis2 .6s infinite}.lds-ellipsis div:nth-child(4){left:56px;animation:lds-ellipsis3 .6s infinite}@keyframes lds-ellipsis1{0%{transform:scale(0)}100%{transform:scale(1)}}@keyframes lds-ellipsis3{0%{transform:scale(1)}100%{transform:scale(0)}}@keyframes lds-ellipsis2{0%{transform:translate(0,0)}100%{transform:translate(24px,0)}}.dark-background{background-color:#303030;color:#fff}.light-background{background-color:#fafafa;color:rgba(0,0,0,.87)}
   </style>
+  <script>
+    if (typeof window !== 'undefined') {
+      const darkMode = JSON.parse(window.localStorage.getItem('theme')).DarkMode;
+      if (darkMode) {
+        document.body.classList.add('dark-background');
+        const metaEl = document.createElement('meta');
+        metaEl.content = "#303030";
+        metaEl.name = "background-color";
 
+        document.head.appendChild(metaEl);
+      } else {
+        document.body.classList.add('light-background');
+      }
+    }
+  </script>
   <app>
-    <div class="in-the-middle">
-      <div class="lds-ellipsis">
+    <div style="display: flex; height: 100% !important;">
+      <div class="lds-ellipsis" style="margin: auto !important;">
         <div></div>
         <div></div>
         <div></div>

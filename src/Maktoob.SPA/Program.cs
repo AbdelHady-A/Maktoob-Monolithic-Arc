@@ -60,6 +60,6 @@ namespace Maktoob.SPA
                });
 
         private static string GetKeyVaultEndpoint()
-            => "https://Maktoob-kv.vault.azure.net";
+            => "https://Maktoobb-kv.vault.azure.net";
     }
 }

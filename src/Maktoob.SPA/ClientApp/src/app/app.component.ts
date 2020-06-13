@@ -13,12 +13,13 @@ export class AppComponent implements OnInit {
    * translate service injected here just to ensure its running in other parts of the app
    */
   constructor(
-    private linkService: ILinkeService
+    private themeFacade: IThemeFacade
   ) {
   }
 
 
   ngOnInit(): void {
+    this.themeFacade.ngOnInit();
   }
 
   title = 'Maktoob';

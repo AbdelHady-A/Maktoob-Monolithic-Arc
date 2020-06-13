@@ -16,16 +16,12 @@ export class RootComponent implements OnInit, OnDestroy {
   constructor(
     private langFacade: ILangFacade,
     private linkService: ILinkeService,
-    private themeFacade: IThemeFacade
+    // private themeFacade: IThemeFacade
   ) {
   }
   ngOnDestroy(): void {
-    if (typeof window !== 'undefined') {
-      document?.body?.classList.remove('dark-mode');
-    }
   }
   ngOnInit(): void {
-    this.themeFacade.ngOnInit();
     this.linkService.AddTag({ id: 'icons', rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp' });
   }
 }
