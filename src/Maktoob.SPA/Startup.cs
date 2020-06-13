@@ -104,7 +104,7 @@ namespace Maktoob.SPA
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                //app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
                 app.UseHttpsRedirection();
@@ -114,14 +114,7 @@ namespace Maktoob.SPA
             provider.Mappings[".webmanifest"] = "application/manifest+json";
 
             app.UseStaticFiles(new StaticFileOptions {
-                ContentTypeProvider = provider,
-                OnPrepareResponse = ctx =>
-                {
-                    // Cache static files for 30 days
-                    var cachePeriod = "2592000";
-                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
-                }
-
+                ContentTypeProvider = provider
             });
             if (!env.IsDevelopment())
             {
